@@ -1,0 +1,53 @@
+// 語 The scene layer's authored beats. CONVENTIONS (語之律, Dialogue mock):
+// Chinese is the voice, English its shadow — a presentation identity, never a
+// language setting. Twelve lines per scene, hard cap (longer beats split
+// around a battle turn). Every choice prints its cost — no hidden meters.
+// Two characters hold the stage (left / right); each line names who speaks —
+// that portrait lights, the other dims. Portrait state is neutral / heightened
+// / damaged (像之預算). Backdrop + portrait art are artist image-slots (absent
+// here → placeholder slots; see DIALOGUE-art).
+(
+    scenes: [
+        (
+            id: "ferry_night",
+            act_cn: "二章 · 渡口之夜",
+            backdrop: "ferry_night",
+            left:  (cn: "借名", en: "LOAN · 幽存", art: "loan"),
+            right: Some((cn: "鐵嫂", en: "AUNT IRON", art: "iron")),
+            lines: [
+                (
+                    speaker: Left, state: Neutral,
+                    cn: "霜在兩域之外。她讀得比走得快。",
+                    en: "Frost is two regions out. She reads faster than she walks.",
+                ),
+                (
+                    speaker: Right, state: Neutral,
+                    cn: "卷上的每一行都是我們留的。怪不得別人。",
+                    en: "Every line on that file is one we left. No one to blame.",
+                ),
+                (
+                    speaker: Left, state: Heightened,
+                    cn: "刻十七是空的。她遲早會問到那一行。",
+                    en: "Tick seventeen is blank. Sooner or later she asks about that row.",
+                ),
+                (
+                    speaker: Right, state: Neutral,
+                    cn: "那就別讓她走到能問的地方。",
+                    en: "Then we keep her from ever standing close enough to ask.",
+                ),
+            ],
+            choices: [
+                (
+                    cn: "「那就去賄印。」",
+                    en: "\"Then we bribe a seal.\"",
+                    cost: "財 −− · 案退 · 冊途之聲",
+                ),
+                (
+                    cn: "「讓他們來。」",
+                    en: "\"Let them come.\"",
+                    cost: "案繼續 · 野途之聲",
+                ),
+            ],
+        ),
+    ],
+)

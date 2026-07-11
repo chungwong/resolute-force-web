@@ -1,0 +1,48 @@
+// 械/甲/佩 The gear tables, from the Content Bible (game_data.json §armaments/
+// plates/peripherals). Prices in 銖. Armament special props (reload, twice-per-
+// action, pull/push, venom) and the four rule-trading peripherals (虛心盂,
+// 斷尾釦, 問路鈴, 匠人腕) land with the content pass (plan P9) — v1 carries the
+// numbers every battle already understands: arm/rng/noise, soak/mov, stat trades.
+(
+    armaments: [
+        (key: "dirk", cn: "短刃", arm: 4, rng: 1, noise: Silent, zhu: 40, supply: "any"),
+        (key: "sleeve_bow", cn: "袖弩", arm: 3, rng: 2, noise: Silent, zhu: 180, supply: "ghosts"),
+        (key: "throwing_axes", cn: "投斧", arm: 5, rng: 2, noise: Low, zhu: 90, supply: "any"),
+        (key: "hunting_bow", cn: "獵弓", arm: 5, rng: 3, noise: Low, zhu: 110, supply: "any"),
+        (key: "grapple_hook", cn: "鉤索", arm: 2, rng: 2, noise: Low, zhu: 130, supply: "fork"),
+        (key: "halberd", cn: "長戟", arm: 7, rng: 1, noise: Silent, zhu: 220, supply: "any"),
+        (key: "maul", cn: "重錘", arm: 8, rng: 1, noise: Low, zhu: 260, supply: "any"),
+        (key: "arbalest", cn: "重弩", arm: 7, rng: 3, noise: Low, zhu: 350, supply: "any"),
+        (key: "repeater", cn: "連弩", arm: 4, rng: 2, noise: Low, zhu: 420, supply: "fork"),
+        (key: "venomed_point", cn: "淬毒短匕", arm: 3, rng: 1, noise: Silent, zhu: 310, supply: "ghosts"),
+        (key: "matchlock", cn: "火銃", arm: 9, rng: 2, noise: High, zhu: 600, supply: "fork"),
+        (key: "siege_piece", cn: "蹶張砲", arm: 12, rng: 4, noise: High, zhu: 1400, supply: "story"),
+    ],
+    plates: [
+        (key: "cloth", cn: "布服", soak: 0, mov: 0, zhu: 5, supply: "any"),
+        (key: "gambeson", cn: "布甲", soak: 1, mov: 0, zhu: 35, supply: "any"),
+        (key: "leathers", cn: "皮甲", soak: 2, mov: 0, zhu: 80, supply: "any"),
+        (key: "ghostweave", cn: "幽存織", soak: 2, mov: 0, zhu: 520, supply: "ghosts"),
+        (key: "silk_weave", cn: "絲鎧", soak: 3, mov: 0, zhu: 450, supply: "houses"),
+        (key: "scale", cn: "鱗甲", soak: 4, mov: -1, zhu: 300, supply: "any"),
+        (key: "war_plate", cn: "板甲", soak: 5, mov: -1, zhu: 550, supply: "any"),
+        (key: "tower_shell", cn: "龜殼", soak: 7, mov: -2, zhu: 900, supply: "story"),
+    ],
+    peripherals: [
+        (key: "grounding_rod", cn: "接地杖", gives: (trace: -2), costs: (lat: 1), zhu: 240, supply: "cult"),
+        (key: "resonance_pin", cn: "諧振簪", gives: (lat: -2), costs: (trace: 2), zhu: 260, supply: "guild"),
+        (key: "fine_brush", cn: "工筆", gives: (hand: 2), costs: (trace: 1), zhu: 220, supply: "fork"),
+        (key: "focus_bead", cn: "縛心珠", gives: (hold: 1), costs: (sync: -1), zhu: 280, supply: "houses"),
+        (key: "seal_ring", cn: "承印環", gives: (sync: 1), costs: (trace: 1), zhu: 300, supply: "guild"),
+        (key: "ash_veil", cn: "灰紗", gives: (trace: -1), costs: (sync: -1), zhu: 190, supply: "quietists"),
+        // r88 special-rule peripherals (rules.json#peripheral_special_rules).
+        // 虛心盂 the sole relic that grants +1 memory over the grade cap, for -1 hold.
+        (key: "hollow_bowl", cn: "虛心盂", gives: (memory: 1), costs: (hold: -1), zhu: 520, supply: "cult_digs"),
+        // 斷尾釦 keep one held write through a disconnect (1/battle), for +1 latency.
+        (key: "severance_clasp", cn: "斷尾釦", gives: (keep_holds: 1), costs: (lat: 1), zhu: 640, supply: "houses"),
+        // 問路鈴 queries cost -1 頻寬; the wearer's ledger reads free to enemy surveyors.
+        (key: "wayfinder_bell", cn: "問路鈴", gives: (query: -1), costs: (open_ledger: 1), zhu: 410, supply: "office"),
+        // 匠人腕 masterwork-tuned weapon: mud-iron +1 arm & +1 range; costs +1 noise tier & +1 latency (r93).
+        (key: "artisan_wrist", cn: "匠人腕", gives: (arm: 1, range: 1), costs: (noise_tier: 1, lat: 1), zhu: 380, supply: "fork"),
+    ],
+)

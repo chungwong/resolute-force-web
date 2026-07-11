@@ -1,0 +1,490 @@
+// Resolute Force — skill & class database.
+// Edit freely; loaded at runtime via the asset server.
+(
+    skills: {
+        // ── Fire ─────────────────────────────────────────────────
+        "blaze": (
+            name: "Blaze", element: Fire, level: 4,
+            mp_cost: 3, range: 2, area: 0, target: Enemy,
+            effects: [ Damage(power: 9) ],
+        ),
+        "blaze2": (
+            name: "Blaze", element: Fire, level: 5,
+            mp_cost: 7, range: 2, area: 2, target: Enemy,
+            seal: Unsealed, bugs: 3,
+            effects: [ Damage(power: 14) ],
+        ),
+
+        // ── Ice ──────────────────────────────────────────────────
+        "freeze": (
+            name: "Freeze", element: Ice, level: 4,
+            mp_cost: 5, range: 2, area: 0, target: Enemy,
+            effects: [ Damage(power: 13) ],
+        ),
+        "freeze2": (
+            name: "Freeze", element: Ice, level: 5,
+            mp_cost: 10, range: 2, area: 1, target: Enemy,
+            effects: [ Damage(power: 18) ],
+        ),
+
+        // ── Wind ─────────────────────────────────────────────────
+        "spark": (
+            name: "Spark", element: Wind, level: 4,
+            mp_cost: 4, range: 2, area: 1, target: Enemy,
+            effects: [ Damage(power: 10) ],
+        ),
+        "spark2": (
+            name: "Spark", element: Wind, level: 5,
+            mp_cost: 9, range: 2, area: 3, shape: Line, target: Enemy,
+            effects: [ Damage(power: 15) ],
+        ),
+
+        // ── Thunder ──────────────────────────────────────────────
+        "bolt": (
+            name: "Bolt", element: Thunder, level: 4,
+            mp_cost: 6, range: 3, area: 0, target: Enemy,
+            effects: [ Damage(power: 15) ],
+        ),
+        "bolt2": (
+            name: "Bolt", element: Thunder, level: 5,
+            mp_cost: 12, range: 3, area: 1, target: Enemy,
+            effects: [ Damage(power: 22) ],
+        ),
+
+        // ── Healing ──────────────────────────────────────────────
+        "heal": (
+            name: "Heal", element: Light, level: 4,
+            mp_cost: 4, range: 1, area: 0, target: Ally,
+            effects: [ Heal(power: 12) ],
+        ),
+        "heal2": (
+            name: "Heal", element: Light, level: 5,
+            mp_cost: 9, range: 2, area: 1, target: Ally,
+            effects: [ Heal(power: 16) ],
+        ),
+        "barrier": (
+            name: "Barrier", element: Light, level: 4,
+            mp_cost: 6, range: 2, area: 0, target: Ally,
+            effects: [
+                ApplyStatus(kind: Shield, duration: 3, magnitude: 12, chance: 256),
+            ],
+        ),
+        "rescue": (
+            name: "Rescue", element: Light, level: 4,
+            mp_cost: 4, range: 3, area: 0, target: Ally,
+            effects: [ Swap ],
+        ),
+        "purify": (
+            name: "Purify", element: Light, level: 4,
+            mp_cost: 5, range: 2, area: 0, target: Ally,
+            effects: [ Heal(power: 4), Cleanse ],
+        ),
+
+        // ── Status skills (new!) ─────────────────────────────────
+        "poison_dart": (
+            name: "Poison Dart", element: Wind, level: 4,
+            mp_cost: 4, range: 2, area: 0, target: Enemy,
+            effects: [
+                Damage(power: 4),
+                ApplyStatus(kind: Poison, duration: 3, magnitude: 3, chance: 200),
+            ],
+        ),
+        "def_break": (
+            name: "Def Break", element: Thunder, level: 4,
+            mp_cost: 5, range: 2, area: 0, target: Enemy,
+            effects: [
+                Damage(power: 6),
+                ApplyStatus(kind: DefDown, duration: 2, magnitude: 3, chance: 256),
+            ],
+        ),
+
+        // ── Warrior specials ─────────────────────────────────────
+        "cleave": (
+            name: "Cleave", element: Wind, level: 4,
+            mp_cost: 4, range: 1, area: 1, shape: Cone, target: Enemy,
+            effects: [ Damage(power: 8) ],
+        ),
+        // 持寫 Held demo: the buff never times out while the caster keeps paying
+        // 2 Bandwidth a turn — stop paying (or die) and the world reasserts.
+        "war_cry": (
+            name: "War Cry", element: Light, level: 4,
+            mp_cost: 5, range: 1, area: 1, target: Ally,
+            write: Held, upkeep: 2,
+            effects: [ ApplyStatus(kind: AtkUp, duration: 3, magnitude: 3, chance: 256) ],
+        ),
+        "bash": (
+            name: "Bash", element: Thunder, level: 4,
+            mp_cost: 4, range: 1, area: 0, target: Enemy,
+            effects: [
+                Damage(power: 5),
+                ApplyStatus(kind: Stun, duration: 1, magnitude: 0, chance: 150),
+                Knockback(distance: 1),
+            ],
+        ),
+        "flurry": (
+            name: "Flurry", element: Wind, level: 4,
+            mp_cost: 5, range: 1, area: 0, target: Enemy,
+            effects: [ Damage(power: 4, hits: 3) ],
+        ),
+
+        // ── Knight specials ──────────────────────────────────────
+        "lance": (
+            name: "Lance", element: Wind, level: 4,
+            mp_cost: 3, range: 1, area: 3, shape: Line, target: Enemy,
+            effects: [ Damage(power: 9) ],
+        ),
+        "guard": (
+            name: "Guard", element: Light, level: 4,
+            mp_cost: 3, range: 0, area: 0, target: Ally,
+            effects: [ ApplyStatus(kind: DefUp, duration: 2, magnitude: 4, chance: 256) ],
+        ),
+        "shield_bash": (
+            name: "Shield Bash", element: Ice, level: 4,
+            mp_cost: 4, range: 1, area: 0, target: Enemy,
+            effects: [
+                Damage(power: 6),
+                Knockback(distance: 2),
+                ApplyStatus(kind: Stun, duration: 1, magnitude: 0, chance: 180),
+            ],
+        ),
+        "twin_lance": (
+            name: "Twin Lance", element: Wind, level: 4,
+            mp_cost: 4, range: 1, area: 0, target: Enemy,
+            effects: [ Damage(power: 7, hits: 2) ],
+        ),
+
+        // ── Archer specials ──────────────────────────────────────
+        "pierce": (
+            name: "Pierce", element: Wind, level: 4,
+            mp_cost: 4, range: 3, area: 3, shape: Line, target: Enemy,
+            effects: [ Damage(power: 10) ],
+        ),
+        "poison_arrow": (
+            name: "Poison Arrow", element: Wind, level: 4,
+            mp_cost: 4, range: 3, area: 0, target: Enemy,
+            effects: [
+                Damage(power: 4),
+                ApplyStatus(kind: Poison, duration: 3, magnitude: 3, chance: 220),
+            ],
+        ),
+        "hobble": (
+            name: "Hobble", element: Thunder, level: 4,
+            mp_cost: 4, range: 3, area: 0, target: Enemy,
+            effects: [
+                Damage(power: 4),
+                ApplyStatus(kind: DefDown, duration: 2, magnitude: 3, chance: 256),
+            ],
+        ),
+        "rapid_shot": (
+            name: "Rapid Shot", element: Wind, level: 4,
+            mp_cost: 5, range: 3, area: 0, target: Enemy,
+            effects: [ Damage(power: 4, hits: 3) ],
+        ),
+
+        // ── Multi-hit spell ──────────────────────────────────────
+        "magic_missile": (
+            name: "Magic Missile", element: Thunder, level: 4,
+            mp_cost: 6, range: 3, area: 0, target: Enemy,
+            sfx: Some("zap"),
+            effects: [ Damage(power: 3, hits: 4) ],
+        ),
+
+        // ── Board-changer: shove the target back two tiles ───────
+        "gust": (
+            name: "Gust", element: Wind, level: 4,
+            mp_cost: 5, range: 2, area: 0, target: Enemy,
+            effects: [
+                Damage(power: 6),
+                Knockback(distance: 2),
+            ],
+        ),
+
+        // ── 思維三十式 THE THIRTY PROGRAMMES (game_data.json §programmes) ──
+        // Canonical player kit: levels 1-3 mirror the compile grade (echo/
+        // stable/high_load) so source auto-fill prefers them. Numbers Bible:
+        // power ≈ bandwidth × 1.5; licensed casts are +0 heat, so the JSON's
+        // per-cast trace folds into the seal pricing (數 Ⅳ reconciliation).
+        // Entries with `effects: []` are data-complete but their engine shape
+        // (terrain writes, zones, chains, self-moves, stealth, revive) is
+        // pending — the loadout gate keeps them out of the menu until then.
+
+        // 炎 BLAZE
+        "blaze_bolt": (
+            name: "Blaze Bolt", cn: "炎矢", element: Fire, level: 1,
+            mp_cost: 3, range: 3, area: 0, target: Enemy,
+            grade: Echo, license_zhu: Some(120), bugs: 8,
+            effects: [ Damage(power: 5) ],
+        ),
+        "firebreak": (
+            name: "Firebreak", cn: "燎原", element: Fire, level: 2,
+            mp_cost: 5, range: 2, area: 3, shape: Line, target: Enemy,
+            grade: Stable, license_zhu: Some(340), bugs: 10,
+            // The razed-ground terrain write lands with the ground systems.
+            effects: [ Damage(power: 7) ],
+        ),
+        "fuelless_flame": (
+            name: "Fuelless Flame", cn: "無薪之炎", element: Fire, level: 3,
+            mp_cost: 4, range: 0, area: 0, target: Ally,
+            grade: HighLoad, license_zhu: None, bugs: 12,
+            write: Held, upkeep: 2,
+            // 灼 CASTER-ANCHORED aura: burns enemies adjacent to the caster each
+            // turn (moves with them), ending when the hold drops. burn_per_turn 4,
+            // radius 1 (numbers.json#battle.programme_fx.zone). rules #programme_zones B.
+            effects: [ BurnAura(power: 4, radius: 1) ],
+        ),
+        "crack_burst": (
+            name: "Crack Burst", cn: "爆璺", element: Fire, level: 2,
+            mp_cost: 5, range: 2, area: 1, target: Enemy,
+            grade: Stable, license_zhu: Some(380), bugs: 11,
+            // "Neighbors half" approximated flat until splash falloff lands.
+            effects: [ Damage(power: 6) ],
+        ),
+        "slag_weld": (
+            name: "Slag Weld", cn: "熔鎖", element: Fire, level: 1,
+            mp_cost: 3, range: 1, area: 0, target: Enemy,
+            grade: Echo, license_zhu: Some(150), bugs: 7,
+            // 熔鎖 the armament welds shut: mud-iron unusable for slag_disable_turns
+            // (numbers.json#battle.programme_fx.control_lock.slag_disable_turns = 1).
+            effects: [ ApplyStatus(kind: GearLock, duration: 1, magnitude: 0, chance: 256) ],
+        ),
+        "beacon_brand": (
+            name: "Beacon Brand", cn: "引火之標", element: Fire, level: 2,
+            mp_cost: 2, range: 3, area: 0, target: Enemy,
+            grade: Stable, license_zhu: Some(200), bugs: 8,
+            write: Held, upkeep: 1,
+            // 引火之標 the mark bars veiling (StealthLocked) AND exposes (DefDown):
+            // a lit target cannot slip into the background while this holds.
+            effects: [
+                ApplyStatus(kind: StealthLocked, duration: 3, magnitude: 0, chance: 256),
+                ApplyStatus(kind: DefDown, duration: 3, magnitude: 2, chance: 256),
+            ],
+        ),
+
+        // 霜 FROST
+        "ice_bridge": (
+            name: "Ice Bridge", cn: "冰橋", element: Ice, level: 1,
+            mp_cost: 4, range: 2, area: 0, target: Enemy,
+            grade: Echo, license_zhu: Some(130), bugs: 6,
+            // 冰橋 raise a wall on the aimed tile: it breaks line-of-sight (a
+            // blocked shot downgrades to fuzzy) and blocks movement for 3 turns.
+            // rules.json#programme_sight_los.
+            effects: [ RaiseWall(turns: 3) ],
+        ),
+        "chill_slow": (
+            name: "Chill", cn: "凝滯", element: Ice, level: 2,
+            mp_cost: 3, range: 2, area: 0, target: Enemy,
+            grade: Stable, license_zhu: Some(260), bugs: 8,
+            write: Held, upkeep: 1,
+            // 凝滯 acts last (Lag) AND mov −2 (Slow; …control_lock.chill_mov_penalty).
+            effects: [
+                ApplyStatus(kind: Slow, duration: 2, magnitude: 2, chance: 256),
+                ApplyStatus(kind: Lag, duration: 2, magnitude: 0, chance: 256),
+            ],
+        ),
+        "frost_carapace": (
+            name: "Frost Carapace", cn: "霜殼", element: Ice, level: 2,
+            mp_cost: 4, range: 1, area: 0, target: Ally,
+            grade: Stable, license_zhu: Some(280), bugs: 8,
+            write: Held, upkeep: 1,
+            effects: [ ApplyStatus(kind: Shield, duration: 3, magnitude: 6, chance: 256) ],
+        ),
+        "white_fog": (
+            name: "White Fog", cn: "白霧", element: Ice, level: 2,
+            mp_cost: 4, range: 2, area: 1, target: Enemy,
+            grade: Stable, license_zhu: Some(300), bugs: 9,
+            write: Held, upkeep: 2,
+            // 白霧 held FOG zone at the aimed tile: blocks sight in-area (folds
+            // into los), queries pass. Lives while the caster pays the upkeep.
+            effects: [ Fog(radius: 1) ]
+        ),
+        "deep_seal": (
+            name: "Deep Seal", cn: "封凍", element: Ice, level: 3,
+            mp_cost: 6, range: 2, area: 0, target: Enemy,
+            grade: HighLoad, license_zhu: None, bugs: 10,
+            // 封凍 ground lock (density mechanism A): the target's TILE Field is
+            // frozen unshiftable and starves any 灼 aura on it for 2 turns
+            // (numbers.json#…zone.deep_seal_douse). rules.json#programme_zones.
+            effects: [ SealTile(turns: 2) ],
+        ),
+        "shatter_toll": (
+            name: "Shatter Toll", cn: "碎冰之報", element: Ice, level: 1,
+            mp_cost: 3, range: 2, area: 0, target: Enemy,
+            grade: Echo, license_zhu: Some(170), bugs: 7,
+            // 碎冰之報: 4 damage, doubled to 8 against a bound (Slowed/Rooted/
+            // Stunned) target — pin with 凝滯, then shatter.
+            effects: [ Detonate(power: 4, bonus: 4) ],
+        ),
+
+        // 電 SPARK
+        "arc_serpent": (
+            name: "Arc Serpent", cn: "電蛇", element: Thunder, level: 2,
+            mp_cost: 5, range: 3, area: 0, target: Enemy,
+            grade: Stable, license_zhu: Some(360), bugs: 12,
+            // 連 the arc follows the Log: 1 primary + up to 2 hops to the nearest
+            // account-bearing enemy, each ½ the previous link (numbers.json#battle
+            // .programme_fx.chain: max_hops 2 · hop_range 2 · falloff 0.5).
+            effects: [ ChainStrike(power: 7, max_hops: 2, hop_range: 2, falloff: 0.5) ],
+        ),
+        "disconnect": (
+            name: "Disconnect", cn: "斷連", element: Thunder, level: 2,
+            mp_cost: 4, range: 2, area: 0, target: Enemy,
+            grade: Stable, license_zhu: Some(420), bugs: 10,
+            // 斷 drop the target's held writes + silence its next cast (Hush).
+            // rules.json#programme_interrupt.
+            effects: [ Disconnect ]
+        ),
+        "scramble": (
+            name: "Scramble", cn: "亂序", element: Thunder, level: 1,
+            mp_cost: 2, range: 2, area: 0, target: Enemy,
+            grade: Echo, license_zhu: Some(140), bugs: 8,
+            write: Held, upkeep: 1,
+            // 亂序 latency treated worst on the field: the target acts last (Lag).
+            effects: [ ApplyStatus(kind: Lag, duration: 2, magnitude: 0, chance: 256) ],
+        ),
+        "pre_empt": (
+            name: "Pre-empt", cn: "奪先", element: Thunder, level: 3,
+            mp_cost: 5, range: 0, area: 0, target: Ally,
+            grade: HighLoad, license_zhu: None, bugs: 13,
+            write: Held, upkeep: 2,
+            // 先制 held buff: the caster's own casts skip react_interrupt while
+            // paid. rules.json#programme_interrupt.
+            effects: [ ApplyStatus(kind: PreEmpt, duration: 2, magnitude: 0, chance: 256) ]
+        ),
+        "feedback": (
+            name: "Feedback", cn: "迴電", element: Thunder, level: 2,
+            mp_cost: 4, range: 2, area: 0, target: Enemy,
+            grade: Stable, license_zhu: Some(390), bugs: 11,
+            // 迴電 damage + the double-billed-upkeep rider: the target's next held
+            // -upkeep tick is billed ×2 (numbers.json …economy.feedback_bill_mult);
+            // can't-pay ⇒ the hold drops.
+            effects: [ Damage(power: 6), BillUpkeep(mult: 2) ],
+        ),
+        "arc_step": (
+            name: "Arc Step", cn: "短躍", element: Thunder, level: 2,
+            mp_cost: 4, range: 4, area: 0, target: Enemy,
+            grade: Stable, license_zhu: Some(440), bugs: 14,
+            // 躍 self-Blink up to arc_dist (2) tiles toward the aimed foe, over
+            // terrain/bodies; land only on an empty passable tile. No damage.
+            effects: [ Blink(dist: 2) ]
+        ),
+
+        // 光 AURA
+        "knit": (
+            name: "Knit", cn: "合創", element: Light, level: 1,
+            mp_cost: 4, range: 1, area: 0, target: Ally,
+            grade: Echo, license_zhu: Some(110), bugs: 5,
+            effects: [ Heal(power: 6) ],
+        ),
+        "aegis_veil": (
+            name: "Aegis Veil", cn: "光幕", element: Light, level: 3,
+            mp_cost: 5, range: 1, area: 1, target: Ally,
+            grade: HighLoad, license_zhu: None, bugs: 9,
+            write: Held, upkeep: 2,
+            // 光幕 held AEGIS ward at the aimed ally's tile: halves a cast whose
+            // caster→target line crosses it (numbers.json#…zone.aegis_cross_mult).
+            effects: [ Aegis(radius: 1) ]
+        ),
+        "purge": (
+            name: "Purge", cn: "滌協", element: Light, level: 2,
+            mp_cost: 3, range: 2, area: 0, target: Ally,
+            grade: Stable, license_zhu: Some(230), bugs: 6,
+            effects: [ Cleanse ],
+        ),
+        "rekindle": (
+            name: "Rekindle", cn: "迴生", element: Light, level: 3,
+            mp_cost: 7, range: 1, area: 0, target: Ally,
+            grade: HighLoad, license_zhu: None, bugs: 9,
+            // 迴生 restore a Disconnected/Crashed ally in place to 1 神識 (clears
+            // the auto-reboot); no-op on Seized/flesh falls. uses_per_battle 1
+            // enforced in-engine (Battle.revive_spent). rules.json#crashed_and_reboot.
+            effects: [ Reboot ],
+        ),
+        "reveal_writ": (
+            name: "Reveal Writ", cn: "昭示", element: Light, level: 1,
+            mp_cost: 2, range: 3, area: 1, target: Enemy,
+            grade: Echo, license_zhu: Some(100), bugs: 5,
+            // 昭示 committed one-shot: strip 匿蹤 Veil from units in the shape at
+            // cast (NOT a zone, no tick). rules.json#programme_zones.
+            effects: [ RevealArea ]
+        ),
+        "oath_ward": (
+            name: "Oath Ward", cn: "誓盾", element: Light, level: 2,
+            mp_cost: 4, range: 1, area: 0, target: Ally,
+            grade: Stable, license_zhu: Some(310), bugs: 8,
+            write: Held, upkeep: 1,
+            // The damage-split link approximated as a light shield.
+            effects: [ ApplyStatus(kind: Shield, duration: 3, magnitude: 4, chance: 256) ],
+        ),
+
+        // 虛 VOID
+        "veil": (
+            name: "Veil", cn: "匿蹤", element: Wind, level: 2,
+            mp_cost: 3, range: 0, area: 0, target: Ally,
+            grade: Stable, license_zhu: Some(290), bugs: 10,
+            write: Held, upkeep: 1,
+            // 匿蹤 veil the caster: untargetable beyond stealth.veil_range (2);
+            // broken by any offensive action, re-asserted while the hold is paid.
+            effects: [ Veil ],
+        ),
+        "root_bind": (
+            name: "Root Bind", cn: "縛根", element: Wind, level: 1,
+            mp_cost: 3, range: 2, area: 0, target: Enemy,
+            grade: Echo, license_zhu: Some(160), bugs: 8,
+            write: Held, upkeep: 1,
+            effects: [ ApplyStatus(kind: Root, duration: 2, magnitude: 0, chance: 256) ],
+        ),
+        "field_draw": (
+            name: "Field Draw", cn: "引載", element: Wind, level: 3,
+            mp_cost: 2, range: 0, area: 0, target: Ally,
+            grade: HighLoad, license_zhu: None, bugs: 14,
+            // 引載 the field lends: the caster's next cast costs 3 頻寬 less
+            // (economy), AND the caster's tile drops one density tier for a turn
+            // (density mechanism A, rules.json#programme_zones).
+            effects: [ NextCastDiscount(amount: -3), LowerDensity ],
+        ),
+        "hollow_step": (
+            name: "Hollow Step", cn: "空步", element: Wind, level: 2,
+            mp_cost: 4, range: 4, area: 0, target: Enemy,
+            grade: Stable, license_zhu: Some(410), bugs: 12,
+            // 透 self-Blink through one wall/body (hollow_pass 1) to the tile
+            // beyond; land only on an empty passable tile. No damage.
+            effects: [ Blink(dist: 2) ]
+        ),
+        "gnaw_memory": (
+            name: "Gnaw Memory", cn: "蝕憶", element: Wind, level: 3,
+            mp_cost: 5, range: 1, area: 0, target: Enemy,
+            grade: HighLoad, license_zhu: None, bugs: 13,
+            // 蝕憶 lock one of the target's actual programme slots for the battle.
+            // The slot is UNBOUND here — the caster picks it in the slot-picker
+            // sub-UI at cast (no query gate). rules.json#programme_control_lock.
+            effects: [ SlotLock(slot: "") ]
+        ),
+        "null_casket": (
+            name: "Null Casket", cn: "虛匣", element: Wind, level: 2,
+            mp_cost: 3, range: 1, area: 0, target: Ally,
+            grade: Stable, license_zhu: Some(330), bugs: 9,
+            write: Held, upkeep: 1,
+            // 虛匣 held intel-hide: off Inspect (seal_record) + Witness sightings;
+            // STAYS targetable/hittable. rules.json#programme_stealth.
+            effects: [ ApplyStatus(kind: IntelHidden, duration: 2, magnitude: 0, chance: 256) ]
+        ),
+    },
+
+    classes: {
+        Warrior: ( skill_ids: ["cleave", "war_cry", "bash", "flurry"], attack_range: 1 ),
+        Knight:  ( skill_ids: ["lance", "guard", "shield_bash", "twin_lance"], attack_range: 1 ),
+        Archer:  ( skill_ids: ["pierce", "poison_arrow", "hobble", "rapid_shot"], attack_range: 2 ),
+        Mage: (
+            skill_ids: [
+                "blaze", "blaze2", "freeze", "freeze2",
+                "spark", "spark2", "bolt", "bolt2",
+                "poison_dart", "def_break", "gust", "magic_missile",
+            ],
+            attack_range: 1,
+        ),
+        Priest: (
+            skill_ids: ["heal", "heal2", "barrier", "rescue", "purify"],
+            attack_range: 1,
+        ),
+    },
+)

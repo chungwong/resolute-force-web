@@ -1,0 +1,41 @@
+// The battlefield layout. Edit freely — a missing or broken file falls back to
+// MapDef::builtin(). Heights stay procedural (rolling hills + slope clamping),
+// except roads/water/staging, which are flat.
+//
+// The Quay canal crossing: an east–west canal (water, impassable) splits the
+// field; two north–south streets cross it as bridges — the chokepoints. The
+// player force holds the south bank, an Ember force the north. Planters (forests)
+// and barricades (forts) give cover.
+//
+// staging_rows: flat deployment rows at the north/south edges.
+// forests: inclusive rects (x0,x1,z0,z1) of cover; forts: heal+cover tiles.
+// water: impassable canal rects; roads: paved rects, drawn over water as bridges.
+// fields: authored 域載 density painted over the terrain-derived default
+//   (Road/Fort->Dense, Forest/Water->Thin, Rock->Rift, else Normal); omit for a
+//   pure terrain-derived board. Each entry: (field: Dense|Normal|Thin|Rift, area: [rects]).
+(
+    width: 12,
+    depth: 12,
+    staging_rows: 3,
+    forests: [
+        (x0: 0, x1: 1, z0: 4, z1: 4),
+        (x0: 10, x1: 11, z0: 7, z1: 7),
+    ],
+    forts: [
+        (x: 5, z: 7),
+        (x: 6, z: 4),
+    ],
+    water: [
+        (x0: 0, x1: 11, z0: 5, z1: 6),
+    ],
+    roads: [
+        (x0: 2, x1: 3, z0: 4, z1: 7),
+        (x0: 8, x1: 9, z0: 4, z1: 7),
+    ],
+    fields: [
+        // Unstable Rift pocket in the northern no-man's-land.
+        (field: Rift, area: [(x0: 5, x1: 6, z0: 1, z1: 2)]),
+        // Dense home-signal band across the player's south staging bank.
+        (field: Dense, area: [(x0: 4, x1: 7, z0: 10, z1: 11)]),
+    ],
+)

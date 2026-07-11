@@ -1,0 +1,49 @@
+// Per-element presentation: VFX colour/emissive, particle bursts, cut-scene
+// framing and impact timing. Edit freely — a missing or broken file falls back
+// to PresentationDb::builtin(). Colours are linear sRGB (r, g, b).
+//
+// ParticleParams: (count, speed, up_bias, gravity, dur, size, delay_offset)
+// CastAnimData:   (pitch, dolly, shake, flash: (r, g, b))
+(
+    spark_color: (1.0, 0.95, 0.7),
+    spark_emissive: 5.0,
+    melee_particles: (count: 8, speed: 2.0, up_bias: 0.5, gravity: 3.0, dur: 0.3, size: 0.18, delay_offset: 0.0),
+    melee_impact_time: 0.95,
+    elements: {
+        Fire: (
+            color: (1.0, 0.45, 0.12),
+            emissive_mul: 6.0,
+            particles: (count: 16, speed: 1.3, up_bias: 1.7, gravity: 1.0, dur: 0.6, size: 0.24, delay_offset: 0.0),
+            impact_time: 0.95,
+            cast_anim: (pitch: 0.30, dolly: 0.18, shake: 0.16, flash: (1.0, 0.5, 0.2)),
+        ),
+        Ice: (
+            color: (0.5, 0.78, 1.0),
+            emissive_mul: 6.0,
+            particles: (count: 14, speed: 2.3, up_bias: 0.3, gravity: 3.2, dur: 0.45, size: 0.20, delay_offset: 0.0),
+            impact_time: 0.95,
+            cast_anim: (pitch: 0.55, dolly: 0.10, shake: 0.06, flash: (0.6, 0.85, 1.0)),
+        ),
+        Wind: (
+            color: (0.55, 1.0, 0.6),
+            emissive_mul: 6.0,
+            particles: (count: 14, speed: 2.6, up_bias: 0.5, gravity: 0.0, dur: 0.55, size: 0.18, delay_offset: 0.0),
+            impact_time: 0.88,
+            cast_anim: (pitch: 0.42, dolly: 0.22, shake: 0.10, flash: (0.6, 1.0, 0.6)),
+        ),
+        Thunder: (
+            color: (1.0, 0.9, 0.25),
+            emissive_mul: 7.0,
+            particles: (count: 16, speed: 3.0, up_bias: 0.2, gravity: 4.0, dur: 0.4, size: 0.18, delay_offset: 0.0),
+            impact_time: 0.80,
+            cast_anim: (pitch: 0.68, dolly: 0.05, shake: 0.20, flash: (1.0, 1.0, 0.7)),
+        ),
+        Light: (
+            color: (0.85, 1.0, 0.8),
+            emissive_mul: 6.0,
+            particles: (count: 14, speed: 0.7, up_bias: 2.0, gravity: 0.3, dur: 0.9, size: 0.18, delay_offset: -0.3),
+            impact_time: 1.05,
+            cast_anim: (pitch: 0.26, dolly: 0.08, shake: 0.0, flash: (0.7, 1.0, 0.7)),
+        ),
+    },
+)

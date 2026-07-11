@@ -1,0 +1,16 @@
+// Resolute Force — terrain property table.
+// Each surface type's gameplay stats; edit freely (loaded at runtime).
+//   passable  — may a unit stand here
+//   move_cost — movement points to enter
+//   defense   — extra DEF vs a physical strike (spells ignore cover)
+//   heal      — HP restored at the start of the occupant's turn
+(
+    defs: {
+        Grass:  (passable: true,  move_cost: 1,  defense: 0, heal: 0),
+        Road:   (passable: true,  move_cost: 1,  defense: 0, heal: 0),
+        Forest: (passable: true,  move_cost: 2,  defense: 2, heal: 0),
+        Rock:   (passable: true,  move_cost: 2,  defense: 3, heal: 0),
+        Water:  (passable: false, move_cost: 99, defense: 0, heal: 0),
+        Fort:   (passable: true,  move_cost: 1,  defense: 1, heal: 5),
+    },
+)

@@ -1,0 +1,1366 @@
+{
+  "$note": "AUTHORITY for game terms and their locale strings (00_START_HERE AUTHORITY TABLE). Source of truth for how each term renders per locale. Code references the id, never a hardcoded glyph. locale codes are BCP-47: en, zh-Hant, zh-Hans. `localize:false` = ornamental chrome (tier 1): zh-Hant is used in ALL builds and OpenCC must skip it. Where present, zh-Hans is an authored OVERRIDE of the OpenCC baseline (the term converts wrong char-by-char); absent zh-Hans = generate from zh-Hant at load. (r20: extended to cover ALL game_data.json ids — callings/abilities/programmes/idioms/armaments/plates/peripherals/convoy_goods. zh-Hant pulled from game_data.cn; zh-Hans generated at build via OpenCC unless overridden.)",
+  "$rev": "r68",
+  "system_term": {
+    "$section": "Cross-cutting mechanics vocabulary. tier 2 (localized).",
+    "term.heat": {
+      "en": "Heat",
+      "zh-Hant": "痕",
+      "zh-Hans": "痕",
+      "rev": "r1",
+      "note": "the audit-log trace resource; single ledger"
+    },
+    "term.bandwidth": {
+      "en": "Bandwidth",
+      "zh-Hant": "頻寬",
+      "zh-Hans": "频宽",
+      "rev": "r1"
+    },
+    "term.field": {
+      "en": "Field Density",
+      "zh-Hant": "域載",
+      "zh-Hans": "域载",
+      "rev": "r1",
+      "note": "regional casting-substrate strength"
+    },
+    "term.coherence": {
+      "en": "Coherence",
+      "zh-Hant": "神識",
+      "zh-Hans": "神识",
+      "rev": "r1",
+      "note": "the HP-analogue"
+    },
+    "term.memory": {
+      "en": "Memory",
+      "zh-Hant": "記憶體",
+      "zh-Hans": "记忆体",
+      "rev": "r1",
+      "note": "programme slots"
+    },
+    "term.zhu": {
+      "en": "zhu",
+      "zh-Hant": "銖",
+      "zh-Hans": "铢",
+      "rev": "r1",
+      "note": "specie currency — OVERRIDE: 銖→铢 is the correct simplification"
+    },
+    "term.witness": {
+      "en": "Witness",
+      "zh-Hant": "睹習",
+      "zh-Hans": "睹习",
+      "rev": "r1"
+    }
+  },
+  "faction": {
+    "$section": "tier 2. faction_tone in tokens.json is keyed to these ids' short keys.",
+    "faction.registry": {
+      "en": "The Registry",
+      "zh-Hant": "註冊局",
+      "zh-Hans": "注册局",
+      "tone": "registry",
+      "rev": "r1"
+    },
+    "faction.guild": {
+      "en": "Compiler Guild",
+      "zh-Hant": "編譯行會",
+      "zh-Hans": "编译行会",
+      "tone": "guild",
+      "rev": "r1"
+    },
+    "faction.cult": {
+      "en": "The Persistent",
+      "zh-Hant": "常駐教團",
+      "zh-Hans": "常驻教团",
+      "tone": "cult",
+      "rev": "r1"
+    },
+    "faction.fork": {
+      "en": "Open Source Fork",
+      "zh-Hant": "自由分支",
+      "zh-Hans": "自由分支",
+      "tone": "rebel",
+      "rev": "r1"
+    },
+    "faction.office": {
+      "en": "The Surveyors",
+      "zh-Hant": "測算司",
+      "zh-Hans": "测算司",
+      "tone": "survey",
+      "rev": "r1"
+    },
+    "faction.houses": {
+      "en": "Heir Houses",
+      "zh-Hant": "遺傳世家",
+      "zh-Hans": "遗传世家",
+      "tone": "guild",
+      "rev": "r1"
+    },
+    "faction.quietists": {
+      "en": "The Quietists",
+      "zh-Hant": "復寂會",
+      "zh-Hans": "复寂会",
+      "tone": "quiet",
+      "rev": "r1"
+    }
+  },
+  "party": {
+    "$section": "tier 2. Post-culture-pass names (no personal names — see rules.json#names_are_functions). EN call-names are canonical UI labels. Each entry carries the canonical `calling` (game_data.json#callings id) + `calling_cn` — the ONE party→calling map; units.ron AND records::ROSTER both reconcile to this (authored r65, resolves BATTLE-ROSTER). captain=witness blessed by design r65. All 6 callings are DISTINCT (a deliberate diversity spread). ferry/scroll are PROVISIONAL (story not finalized, accepted r67 for variety) — revisit when story canon lands.",
+    "party.captain": {
+      "en": "Loan",
+      "zh-Hant": "借名",
+      "zh-Hans": "借名",
+      "calling": "witness",
+      "calling_cn": "睹習生",
+      "rev": "r65",
+      "note": "the framed captain; was 洛珂/Lo Ko. PROTAGONIST — calling=witness (睹習生): witnessing is the game's central verb (battle output is witnessed-source; Log tagline 察錄不忘). Blessed by design r65; records::ROSTER already had this."
+    },
+    "party.exseal": {
+      "en": "Broke-Seal",
+      "zh-Hant": "棄印",
+      "zh-Hans": "弃印",
+      "calling": "examiner",
+      "calling_cn": "驗身官",
+      "rev": "r65",
+      "note": "ex-examiner; was 簡瀾/Jian Lan. calling=examiner (驗身官, faction registry_defector) — the defector-examiner calling, an exact match for 'ex-examiner'."
+    },
+    "party.iron": {
+      "en": "Aunt Iron",
+      "zh-Hant": "鐵嫂",
+      "zh-Hans": "铁嫂",
+      "calling": "iron_soldier",
+      "calling_cn": "濁械卒",
+      "rev": "r65",
+      "note": "calling=iron_soldier (濁械卒 MudIron) — unambiguous (name + game_data boot 'iron soldier' member)."
+    },
+    "party.ferry": {
+      "en": "Ferry Mother",
+      "zh-Hant": "渡母",
+      "zh-Hans": "渡母",
+      "calling": "daemon_keeper",
+      "calling_cn": "喚駐司祭",
+      "rev": "r65",
+      "note": "calling=daemon_keeper (喚駐司祭, resident_cult) — PROVISIONAL diversity pick (story not finalized; accepted r67 for party variety, ties to the Travel 觀潮 read-tide camp action). Revisit when story canon lands."
+    },
+    "party.scroll": {
+      "en": "Little Scroll",
+      "zh-Hant": "小卷",
+      "zh-Hans": "小卷",
+      "calling": "licensee",
+      "calling_cn": "有照師",
+      "rev": "r65",
+      "note": "calling=licensee (有照師, compilers_guild) — PROVISIONAL diversity pick (story not finalized; accepted r67 for party variety, ties to the Travel 考據 collate-codex camp action). Revisit when story canon lands."
+    },
+    "party.fei": {
+      "en": "Ah Fei",
+      "zh-Hant": "阿沸",
+      "zh-Hans": "阿沸",
+      "calling": "surveyor",
+      "calling_cn": "測算生",
+      "rev": "r65",
+      "note": "calling=surveyor (測算生) per records::ROSTER (captain=witness ⇒ fei=surveyor)."
+    }
+  },
+  "antagonist": {
+    "antag.examiner": {
+      "en": "Examiner Frost",
+      "zh-Hant": "霜",
+      "zh-Hans": "霜",
+      "rev": "r1",
+      "note": "office-name; the Case hunter. Successor inherits the office-name, never a person."
+    }
+  },
+  "chrome": {
+    "$section": "tier 1 — ORNAMENTAL. localize:false. zh-Hant in every build; OpenCC skips these.",
+    "chrome.worldmap_title": {
+      "en": "THE WORLD REGISTER",
+      "zh-Hant": "疆域圖",
+      "localize": false,
+      "rev": "r1"
+    },
+    "chrome.codex_title": {
+      "en": "THE CODEX",
+      "zh-Hant": "數經",
+      "localize": false,
+      "rev": "r1"
+    },
+    "chrome.index_title": {
+      "en": "INDEX",
+      "zh-Hant": "總目",
+      "localize": false,
+      "rev": "r1"
+    }
+  },
+  "worldmap_region": {
+    "$section": "tier 2. Map region labels + the field-density value lives in numbers.json, not here. zh-Hans mostly clean OpenCC; listed for the WorldMap DoD.",
+    "region.coreland": {
+      "en": "Coreland",
+      "zh-Hant": "神啟原",
+      "zh-Hans": "神启原",
+      "rev": "r1"
+    },
+    "region.meridian": {
+      "en": "The Meridian Reach",
+      "zh-Hant": "子午嶺",
+      "zh-Hans": "子午岭",
+      "rev": "r1"
+    },
+    "region.sundered": {
+      "en": "The Sundered East",
+      "zh-Hant": "裂東荒漠",
+      "zh-Hans": "裂东荒漠",
+      "rev": "r1"
+    },
+    "region.frost": {
+      "en": "The Frostmarch",
+      "zh-Hant": "霜界",
+      "zh-Hans": "霜界",
+      "rev": "r1"
+    },
+    "region.marches": {
+      "en": "The Marches",
+      "zh-Hant": "邊陲諸領",
+      "zh-Hans": "边陲诸领",
+      "rev": "r1"
+    },
+    "region.rift": {
+      "en": "The Rift",
+      "zh-Hant": "空隙",
+      "zh-Hans": "空隙",
+      "rev": "r1"
+    },
+    "region.splinters": {
+      "en": "The Splinters",
+      "zh-Hant": "碎島",
+      "zh-Hans": "碎岛",
+      "rev": "r1"
+    },
+    "region.cinder": {
+      "en": "The Cinderwastes",
+      "zh-Hant": "燼原",
+      "zh-Hans": "烬原",
+      "rev": "r1"
+    }
+  },
+  "road": {
+    "$section": "tier 2. The three Travel roads (numbers.json#roads keys the legs/Heat/hunter trade; these are the locale names). EN = full UI label.",
+    "road.registered": {
+      "en": "The Registered Road",
+      "zh-Hant": "官道",
+      "zh-Hans": "官道",
+      "rev": "r41",
+      "note": "2 legs, most seen; id keys numbers.json#roads.registered"
+    },
+    "road.granary": {
+      "en": "The Granary Road",
+      "zh-Hant": "倉道",
+      "zh-Hans": "仓道",
+      "rev": "r41",
+      "note": "3 legs, balanced; id keys numbers.json#roads.granary"
+    },
+    "road.thin": {
+      "en": "The Thin Path",
+      "zh-Hant": "荒徑",
+      "zh-Hans": "荒径",
+      "rev": "r41",
+      "note": "4 legs, quietest but courts corruption; id keys numbers.json#roads.thin"
+    }
+  },
+  "camp_action": {
+    "$section": "tier 2. The six Travel camp actions (one per party member per night). Ability semantics live in game_data.json callings; this is the locale name.",
+    "camp.night_query": {
+      "en": "Night Query",
+      "zh-Hant": "夜問",
+      "zh-Hans": "夜问",
+      "rev": "r41",
+      "note": "captain; surveyor preread_tide, 熱 +1"
+    },
+    "camp.correct_build": {
+      "en": "Correct a Build",
+      "zh-Hant": "校譯",
+      "zh-Hans": "校译",
+      "rev": "r41",
+      "note": "fei; patch-ink −3 Bug on one build, no-Log"
+    },
+    "camp.tend_wounds": {
+      "en": "Tend Wounds",
+      "zh-Hant": "養傷",
+      "zh-Hans": "养伤",
+      "rev": "r41",
+      "note": "iron; ghost flesh-wound heal, 財 20"
+    },
+    "camp.drill_protocol": {
+      "en": "Drill Protocol",
+      "zh-Hant": "習律",
+      "zh-Hans": "习律",
+      "rev": "r41",
+      "note": "exseal; teaching (3 nights = 1 Teaching), free"
+    },
+    "camp.read_tide": {
+      "en": "Read the Tide",
+      "zh-Hant": "觀潮",
+      "zh-Hans": "观潮",
+      "rev": "r41",
+      "note": "ferry; keeper tide read, free, no-Log"
+    },
+    "camp.collate_codex": {
+      "en": "Collate the Codex",
+      "zh-Hant": "考據",
+      "zh-Hans": "考据",
+      "rev": "r41",
+      "note": "scroll; codex-completion loop, free"
+    }
+  },
+  "worldmap_settlement": {
+    "$section": "tier 2. 11 settlements. `tone` = faction_tone key. `bloc` field is prose → lives in the screen's i18n strings, not here.",
+    "site.spindle": {
+      "en": "The Spindle",
+      "zh-Hant": "冊樞",
+      "zh-Hans": "册枢",
+      "tone": "registry",
+      "rev": "r1"
+    },
+    "site.root": {
+      "en": "Root Council",
+      "zh-Hant": "根議會",
+      "zh-Hans": "根议会",
+      "tone": "admin",
+      "rev": "r1"
+    },
+    "site.guildreach": {
+      "en": "The Guildreach",
+      "zh-Hant": "行會領",
+      "zh-Hans": "行会领",
+      "tone": "guild",
+      "rev": "r1"
+    },
+    "site.compilers": {
+      "en": "Compiler's Row",
+      "zh-Hant": "編譯行",
+      "zh-Hans": "编译行",
+      "tone": "guild",
+      "rev": "r1"
+    },
+    "site.hollow": {
+      "en": "The Hollow",
+      "zh-Hant": "空境",
+      "zh-Hans": "空境",
+      "tone": "cult",
+      "rev": "r1"
+    },
+    "site.underfork": {
+      "en": "The Underfork",
+      "zh-Hant": "分支底層",
+      "zh-Hans": "分支底层",
+      "tone": "rebel",
+      "rev": "r1"
+    },
+    "site.frontier": {
+      "en": "The Frontier",
+      "zh-Hant": "緋界",
+      "zh-Hans": "绯界",
+      "tone": "contested",
+      "rev": "r1"
+    },
+    "site.ashmarch": {
+      "en": "The Ashmarch",
+      "zh-Hant": "燼野",
+      "zh-Hans": "烬野",
+      "tone": "exile",
+      "rev": "r1"
+    },
+    "site.datum": {
+      "en": "The Datum",
+      "zh-Hant": "基準臺",
+      "zh-Hans": "基准台",
+      "tone": "survey",
+      "rev": "r1"
+    },
+    "site.hushfold": {
+      "en": "The Hushfold",
+      "zh-Hant": "息廬",
+      "zh-Hans": "息庐",
+      "tone": "quiet",
+      "rev": "r1"
+    }
+  },
+  "calling": {
+    "$section": "tier 2. From game_data.json callings. `faction`/`station`/`layer` stay in game_data; this is the locale label + elevation title. (r20)",
+    "calling.surveyor": {
+      "en": "Surveyor",
+      "zh-Hant": "測算生",
+      "rev": "r20",
+      "faction": "surveyors_office",
+      "zh-Hans": "测算生"
+    },
+    "calling.licensee": {
+      "en": "Licensee",
+      "zh-Hant": "有照師",
+      "rev": "r20",
+      "faction": "compilers_guild",
+      "zh-Hans": "有照师"
+    },
+    "calling.witness": {
+      "en": "Witness",
+      "zh-Hant": "睹習生",
+      "rev": "r20",
+      "faction": "free_fork",
+      "zh-Hans": "睹习生"
+    },
+    "calling.heir": {
+      "en": "Heir",
+      "zh-Hant": "承血者",
+      "rev": "r20",
+      "faction": "heritance_houses"
+    },
+    "calling.examiner": {
+      "en": "Examiner",
+      "zh-Hant": "驗身官",
+      "rev": "r20",
+      "faction": "registry_defector",
+      "zh-Hans": "验身官"
+    },
+    "calling.daemon_keeper": {
+      "en": "Daemon-Keeper",
+      "zh-Hant": "喚駐司祭",
+      "rev": "r20",
+      "faction": "resident_cult",
+      "zh-Hans": "唤驻司祭"
+    },
+    "calling.quietist": {
+      "en": "Quietist",
+      "zh-Hant": "復寂士",
+      "rev": "r20",
+      "faction": "quietists",
+      "zh-Hans": "复寂士"
+    },
+    "calling.iron_soldier": {
+      "en": "Iron Soldier",
+      "zh-Hant": "濁械卒",
+      "rev": "r20",
+      "faction": "none_or_ghosts",
+      "zh-Hans": "浊械卒"
+    }
+  },
+  "ability": {
+    "$section": "tier 2. Calling ability verbs from game_data.json callings[].abilities. Grouped by calling in game_data; flat here. (r20)",
+    "ability.query": {
+      "en": "Query",
+      "zh-Hant": "問界",
+      "rev": "r20",
+      "calling": "surveyor",
+      "zh-Hans": "问界"
+    },
+    "ability.preread_tide": {
+      "en": "Pre-Read Tide",
+      "zh-Hant": "預讀天潮",
+      "rev": "r20",
+      "calling": "surveyor",
+      "zh-Hans": "预读天潮"
+    },
+    "ability.batch_query": {
+      "en": "Batch Query",
+      "zh-Hant": "併問",
+      "rev": "r20",
+      "calling": "surveyor",
+      "zh-Hans": "并问"
+    },
+    "ability.office_wire": {
+      "en": "Office Wire",
+      "zh-Hant": "司之耳目",
+      "rev": "r20",
+      "calling": "surveyor"
+    },
+    "ability.sell_the_read": {
+      "en": "Sell the Read",
+      "zh-Hant": "沽報",
+      "rev": "r20",
+      "calling": "surveyor",
+      "zh-Hans": "沽报"
+    },
+    "ability.countersign": {
+      "en": "Countersign",
+      "zh-Hant": "具狀",
+      "rev": "r20",
+      "calling": "licensee",
+      "zh-Hans": "具状"
+    },
+    "ability.file_grievance": {
+      "en": "File Grievance",
+      "zh-Hant": "訴狀",
+      "rev": "r20",
+      "calling": "licensee",
+      "zh-Hans": "诉状"
+    },
+    "ability.emergency_license": {
+      "en": "Emergency License",
+      "zh-Hant": "補照",
+      "rev": "r20",
+      "calling": "licensee",
+      "zh-Hans": "补照"
+    },
+    "ability.under_license": {
+      "en": "Under License",
+      "zh-Hant": "照下之蔭",
+      "rev": "r20",
+      "calling": "licensee",
+      "zh-Hans": "照下之荫"
+    },
+    "ability.audit_sense": {
+      "en": "Audit Sense",
+      "zh-Hant": "審前之嗅",
+      "rev": "r20",
+      "calling": "licensee",
+      "zh-Hans": "审前之嗅"
+    },
+    "ability.witness": {
+      "en": "Witness",
+      "zh-Hant": "睹",
+      "rev": "r20",
+      "calling": "witness"
+    },
+    "ability.flash_study": {
+      "en": "Flash Study",
+      "zh-Hant": "過目",
+      "rev": "r20",
+      "calling": "witness",
+      "zh-Hans": "过目"
+    },
+    "ability.counter_sight": {
+      "en": "Counter-Sight",
+      "zh-Hant": "反睹",
+      "rev": "r20",
+      "calling": "witness"
+    },
+    "ability.idiom_eye": {
+      "en": "Idiom Eye",
+      "zh-Hant": "譜眼",
+      "rev": "r20",
+      "calling": "witness",
+      "zh-Hans": "谱眼"
+    },
+    "ability.fence": {
+      "en": "Fence",
+      "zh-Hant": "銷贓",
+      "rev": "r20",
+      "calling": "witness",
+      "zh-Hans": "销赃"
+    },
+    "ability.lease": {
+      "en": "Lease",
+      "zh-Hant": "租",
+      "rev": "r20",
+      "calling": "heir"
+    },
+    "ability.bear": {
+      "en": "Bear",
+      "zh-Hant": "移持",
+      "rev": "r20",
+      "calling": "heir"
+    },
+    "ability.blood_forfeit": {
+      "en": "Blood Forfeit",
+      "zh-Hant": "血償",
+      "rev": "r20",
+      "calling": "heir",
+      "zh-Hans": "血偿"
+    },
+    "ability.kin_oath": {
+      "en": "Kin-Oath",
+      "zh-Hant": "血盟之誓",
+      "rev": "r20",
+      "calling": "heir"
+    },
+    "ability.house_purse": {
+      "en": "House Purse",
+      "zh-Hant": "家帑",
+      "rev": "r20",
+      "calling": "heir"
+    },
+    "ability.inspect": {
+      "en": "Inspect",
+      "zh-Hant": "驗",
+      "rev": "r20",
+      "calling": "examiner",
+      "zh-Hans": "验"
+    },
+    "ability.dismantle": {
+      "en": "Dismantle",
+      "zh-Hant": "拆植",
+      "rev": "r20",
+      "calling": "examiner"
+    },
+    "ability.doctor_record": {
+      "en": "Doctor the Record",
+      "zh-Hant": "改卷",
+      "rev": "r20",
+      "calling": "examiner"
+    },
+    "ability.old_robes": {
+      "en": "Old Robes",
+      "zh-Hant": "舊袍之威",
+      "rev": "r20",
+      "calling": "examiner",
+      "zh-Hans": "旧袍之威"
+    },
+    "ability.old_colleagues": {
+      "en": "Old Colleagues",
+      "zh-Hant": "舊識",
+      "rev": "r20",
+      "calling": "examiner",
+      "zh-Hans": "旧识"
+    },
+    "ability.wake": {
+      "en": "Wake",
+      "zh-Hant": "喚駐",
+      "rev": "r20",
+      "calling": "daemon_keeper",
+      "zh-Hans": "唤驻"
+    },
+    "ability.soothe": {
+      "en": "Soothe",
+      "zh-Hant": "安撫",
+      "rev": "r20",
+      "calling": "daemon_keeper",
+      "zh-Hans": "安抚"
+    },
+    "ability.commune": {
+      "en": "Commune",
+      "zh-Hant": "問駐",
+      "rev": "r20",
+      "calling": "daemon_keeper",
+      "zh-Hans": "问驻"
+    },
+    "ability.lamp_oath": {
+      "en": "Lamp-Oath",
+      "zh-Hant": "燈誓",
+      "rev": "r20",
+      "calling": "daemon_keeper",
+      "zh-Hans": "灯誓"
+    },
+    "ability.tithe": {
+      "en": "Tithe",
+      "zh-Hant": "團之貢",
+      "rev": "r20",
+      "calling": "daemon_keeper",
+      "zh-Hans": "团之贡"
+    },
+    "ability.hush": {
+      "en": "Hush",
+      "zh-Hant": "寐",
+      "rev": "r20",
+      "calling": "quietist"
+    },
+    "ability.self_silence": {
+      "en": "Self-Silence",
+      "zh-Hant": "自寂",
+      "rev": "r20",
+      "calling": "quietist"
+    },
+    "ability.wide_hush": {
+      "en": "Wide Hush",
+      "zh-Hant": "廣寐",
+      "rev": "r20",
+      "calling": "quietist",
+      "zh-Hans": "广寐"
+    },
+    "ability.quiet_walk": {
+      "en": "Quiet Walk",
+      "zh-Hant": "寂行",
+      "rev": "r20",
+      "calling": "quietist"
+    },
+    "ability.retired_secrets": {
+      "en": "Retired Secrets",
+      "zh-Hant": "退者之密",
+      "rev": "r20",
+      "calling": "quietist"
+    },
+    "ability.no_account": {
+      "en": "No Account",
+      "zh-Hant": "無帳",
+      "rev": "r20",
+      "calling": "iron_soldier",
+      "zh-Hans": "无帐"
+    },
+    "ability.rapid_reload": {
+      "en": "Rapid Reload",
+      "zh-Hant": "快裝",
+      "rev": "r20",
+      "calling": "iron_soldier",
+      "zh-Hans": "快装"
+    },
+    "ability.body_screen": {
+      "en": "Body Screen",
+      "zh-Hant": "掩護",
+      "rev": "r20",
+      "calling": "iron_soldier",
+      "zh-Hans": "掩护"
+    },
+    "ability.field_strip": {
+      "en": "Field-Strip",
+      "zh-Hant": "拆械",
+      "rev": "r20",
+      "calling": "iron_soldier"
+    },
+    "ability.veterans_eye": {
+      "en": "Veteran's Eye",
+      "zh-Hant": "老兵之目",
+      "rev": "r20",
+      "calling": "iron_soldier"
+    }
+  },
+  "programme": {
+    "$section": "tier 2. From game_data.json programmes. `src`/stats stay in game_data; this is the locale name. (r20)",
+    "programme.blaze_bolt": {
+      "en": "Blaze-Bolt",
+      "zh-Hant": "炎矢",
+      "rev": "r20",
+      "src": "blaze"
+    },
+    "programme.firebreak": {
+      "en": "Firebreak",
+      "zh-Hant": "燎原",
+      "rev": "r20",
+      "src": "blaze"
+    },
+    "programme.fuelless_flame": {
+      "en": "Fuelless Flame",
+      "zh-Hant": "無薪之炎",
+      "rev": "r20",
+      "src": "blaze",
+      "zh-Hans": "无薪之炎"
+    },
+    "programme.crack_burst": {
+      "en": "Crack-Burst",
+      "zh-Hant": "爆璺",
+      "rev": "r20",
+      "src": "blaze"
+    },
+    "programme.slag_weld": {
+      "en": "Slag-Weld",
+      "zh-Hant": "熔鎖",
+      "rev": "r20",
+      "src": "blaze",
+      "zh-Hans": "熔锁"
+    },
+    "programme.beacon_brand": {
+      "en": "Beacon-Brand",
+      "zh-Hant": "引火之標",
+      "rev": "r20",
+      "src": "blaze",
+      "zh-Hans": "引火之标"
+    },
+    "programme.ice_bridge": {
+      "en": "Ice-Bridge",
+      "zh-Hant": "冰橋",
+      "rev": "r20",
+      "src": "frost",
+      "zh-Hans": "冰桥"
+    },
+    "programme.chill_slow": {
+      "en": "Chill-Slow",
+      "zh-Hant": "凝滯",
+      "rev": "r20",
+      "src": "frost",
+      "zh-Hans": "凝滞"
+    },
+    "programme.frost_carapace": {
+      "en": "Frost-Carapace",
+      "zh-Hant": "霜殼",
+      "rev": "r20",
+      "src": "frost",
+      "zh-Hans": "霜壳"
+    },
+    "programme.white_fog": {
+      "en": "White-Fog",
+      "zh-Hant": "白霧",
+      "rev": "r20",
+      "src": "frost",
+      "zh-Hans": "白雾"
+    },
+    "programme.deep_seal": {
+      "en": "Deep-Seal",
+      "zh-Hant": "封凍",
+      "rev": "r20",
+      "src": "frost",
+      "zh-Hans": "封冻"
+    },
+    "programme.shatter_toll": {
+      "en": "Shatter-Toll",
+      "zh-Hant": "碎冰之報",
+      "rev": "r20",
+      "src": "frost",
+      "zh-Hans": "碎冰之报"
+    },
+    "programme.arc_serpent": {
+      "en": "Arc-Serpent",
+      "zh-Hant": "電蛇",
+      "rev": "r20",
+      "src": "spark",
+      "zh-Hans": "电蛇"
+    },
+    "programme.disconnect": {
+      "en": "Disconnect",
+      "zh-Hant": "斷連",
+      "rev": "r20",
+      "src": "spark",
+      "zh-Hans": "断连"
+    },
+    "programme.scramble": {
+      "en": "Scramble",
+      "zh-Hant": "亂序",
+      "rev": "r20",
+      "src": "spark",
+      "zh-Hans": "乱序"
+    },
+    "programme.pre_empt": {
+      "en": "Pre-empt",
+      "zh-Hant": "奪先",
+      "rev": "r20",
+      "src": "spark",
+      "zh-Hans": "夺先"
+    },
+    "programme.feedback": {
+      "en": "Feedback",
+      "zh-Hant": "迴電",
+      "rev": "r20",
+      "src": "spark",
+      "zh-Hans": "回电"
+    },
+    "programme.arc_step": {
+      "en": "Arc-Step",
+      "zh-Hant": "短躍",
+      "rev": "r20",
+      "src": "spark",
+      "zh-Hans": "短跃"
+    },
+    "programme.knit": {
+      "en": "Knit",
+      "zh-Hant": "合創",
+      "rev": "r20",
+      "src": "aura",
+      "zh-Hans": "合创"
+    },
+    "programme.aegis_veil": {
+      "en": "Aegis-Veil",
+      "zh-Hant": "光幕",
+      "rev": "r20",
+      "src": "aura"
+    },
+    "programme.purge": {
+      "en": "Purge",
+      "zh-Hant": "滌協",
+      "rev": "r20",
+      "src": "aura",
+      "zh-Hans": "涤协"
+    },
+    "programme.rekindle": {
+      "en": "Rekindle",
+      "zh-Hant": "迴生",
+      "rev": "r20",
+      "src": "aura",
+      "zh-Hans": "回生"
+    },
+    "programme.reveal_writ": {
+      "en": "Reveal-Writ",
+      "zh-Hant": "昭示",
+      "rev": "r20",
+      "src": "aura"
+    },
+    "programme.oath_ward": {
+      "en": "Oath-Ward",
+      "zh-Hant": "誓盾",
+      "rev": "r20",
+      "src": "aura"
+    },
+    "programme.veil": {
+      "en": "Veil",
+      "zh-Hant": "匿蹤",
+      "rev": "r20",
+      "src": "void",
+      "zh-Hans": "匿踪"
+    },
+    "programme.root_bind": {
+      "en": "Root-Bind",
+      "zh-Hant": "縛根",
+      "rev": "r20",
+      "src": "void",
+      "zh-Hans": "缚根"
+    },
+    "programme.field_draw": {
+      "en": "Field-Draw",
+      "zh-Hant": "引載",
+      "rev": "r20",
+      "src": "void",
+      "zh-Hans": "引载"
+    },
+    "programme.hollow_step": {
+      "en": "Hollow-Step",
+      "zh-Hant": "空步",
+      "rev": "r20",
+      "src": "void"
+    },
+    "programme.gnaw_memory": {
+      "en": "Gnaw-Memory",
+      "zh-Hant": "蝕憶",
+      "rev": "r20",
+      "src": "void",
+      "zh-Hans": "蚀忆"
+    },
+    "programme.null_casket": {
+      "en": "Null-Casket",
+      "zh-Hant": "虛匣",
+      "rev": "r20",
+      "src": "void",
+      "zh-Hans": "虚匣"
+    }
+  },
+  "idiom": {
+    "$section": "tier 2. From game_data.json idioms (piece-combos). (r20)",
+    "idiom.lawhunter": {
+      "en": "Law-Hunter",
+      "zh-Hant": "斷而誅",
+      "rev": "r20",
+      "zh-Hans": "断而诛"
+    },
+    "idiom.still_hunt": {
+      "en": "Still Hunt",
+      "zh-Hant": "靜獵",
+      "rev": "r20",
+      "zh-Hans": "静猎"
+    },
+    "idiom.twin_write": {
+      "en": "Twin-Write",
+      "zh-Hant": "雙寫",
+      "rev": "r20",
+      "zh-Hans": "双写"
+    },
+    "idiom.tide_borrow": {
+      "en": "Tide-Borrow",
+      "zh-Hant": "借潮",
+      "rev": "r20"
+    }
+  },
+  "armament": {
+    "$section": "tier 2. From game_data.json armaments (械). (r20)",
+    "arm.dirk": {
+      "en": "Dirk",
+      "zh-Hant": "短刃",
+      "rev": "r20"
+    },
+    "arm.sleeve_bow": {
+      "en": "Sleeve-Bow",
+      "zh-Hant": "袖弩",
+      "rev": "r20"
+    },
+    "arm.throwing_axes": {
+      "en": "Throwing Axes",
+      "zh-Hant": "投斧",
+      "rev": "r20"
+    },
+    "arm.hunting_bow": {
+      "en": "Hunting Bow",
+      "zh-Hant": "獵弓",
+      "rev": "r20",
+      "zh-Hans": "猎弓"
+    },
+    "arm.grapple_hook": {
+      "en": "Grapple-Hook",
+      "zh-Hant": "鉤索",
+      "rev": "r20",
+      "zh-Hans": "钩索"
+    },
+    "arm.halberd": {
+      "en": "Halberd",
+      "zh-Hant": "長戟",
+      "rev": "r20",
+      "zh-Hans": "长戟"
+    },
+    "arm.maul": {
+      "en": "Maul",
+      "zh-Hant": "重錘",
+      "rev": "r20",
+      "zh-Hans": "重锤"
+    },
+    "arm.arbalest": {
+      "en": "Arbalest",
+      "zh-Hant": "重弩",
+      "rev": "r20"
+    },
+    "arm.repeater": {
+      "en": "Repeater",
+      "zh-Hant": "連弩",
+      "rev": "r20",
+      "zh-Hans": "连弩"
+    },
+    "arm.venomed_point": {
+      "en": "Venomed Point",
+      "zh-Hant": "淬毒短匕",
+      "rev": "r20"
+    },
+    "arm.matchlock": {
+      "en": "Matchlock",
+      "zh-Hant": "火銃",
+      "rev": "r20",
+      "zh-Hans": "火铳"
+    },
+    "arm.siege_piece": {
+      "en": "Siege-Piece",
+      "zh-Hant": "蹶張砲",
+      "rev": "r20",
+      "zh-Hans": "蹶张砲"
+    }
+  },
+  "plate": {
+    "$section": "tier 2. From game_data.json plates (甲). (r20)",
+    "plate.cloth": {
+      "en": "Cloth",
+      "zh-Hant": "布服",
+      "rev": "r20"
+    },
+    "plate.gambeson": {
+      "en": "Gambeson",
+      "zh-Hant": "布甲",
+      "rev": "r20"
+    },
+    "plate.leathers": {
+      "en": "Leathers",
+      "zh-Hant": "皮甲",
+      "rev": "r20"
+    },
+    "plate.ghostweave": {
+      "en": "Ghostweave",
+      "zh-Hant": "幽存織",
+      "rev": "r20",
+      "zh-Hans": "幽存织"
+    },
+    "plate.silk_weave": {
+      "en": "Silk-Weave",
+      "zh-Hant": "絲鎧",
+      "rev": "r20",
+      "zh-Hans": "丝铠"
+    },
+    "plate.scale": {
+      "en": "Scale",
+      "zh-Hant": "鱗甲",
+      "rev": "r20",
+      "zh-Hans": "鳞甲"
+    },
+    "plate.war_plate": {
+      "en": "War-Plate",
+      "zh-Hant": "板甲",
+      "rev": "r20"
+    },
+    "plate.tower_shell": {
+      "en": "Tower-Shell",
+      "zh-Hant": "龜殼",
+      "rev": "r20",
+      "zh-Hans": "龟壳"
+    }
+  },
+  "peripheral": {
+    "$section": "tier 2. From game_data.json peripherals (佩). (r20)",
+    "peri.grounding_rod": {
+      "en": "Grounding Rod",
+      "zh-Hant": "接地杖",
+      "rev": "r20"
+    },
+    "peri.resonance_pin": {
+      "en": "Resonance Pin",
+      "zh-Hant": "諧振簪",
+      "rev": "r20",
+      "zh-Hans": "谐振簪"
+    },
+    "peri.fine_brush": {
+      "en": "Fine Brush",
+      "zh-Hant": "工筆",
+      "rev": "r20",
+      "zh-Hans": "工笔"
+    },
+    "peri.focus_bead": {
+      "en": "Focus Bead",
+      "zh-Hant": "縛心珠",
+      "rev": "r20",
+      "zh-Hans": "缚心珠"
+    },
+    "peri.seal_ring": {
+      "en": "Seal-Ring",
+      "zh-Hant": "承印環",
+      "rev": "r20",
+      "zh-Hans": "承印环"
+    },
+    "peri.ash_veil": {
+      "en": "Ash-Veil",
+      "zh-Hant": "灰紗",
+      "rev": "r20",
+      "zh-Hans": "灰纱"
+    },
+    "peri.hollow_bowl": {
+      "en": "Hollow Bowl",
+      "zh-Hant": "虛心盂",
+      "rev": "r20",
+      "zh-Hans": "虚心盂"
+    },
+    "peri.severance_clasp": {
+      "en": "Severance Clasp",
+      "zh-Hant": "斷尾釦",
+      "rev": "r20",
+      "zh-Hans": "断尾扣"
+    },
+    "peri.wayfinder_bell": {
+      "en": "Wayfinder Bell",
+      "zh-Hant": "問路鈴",
+      "rev": "r20",
+      "zh-Hans": "问路铃"
+    },
+    "peri.artisan_wrist": {
+      "en": "Artisan Wrist",
+      "zh-Hant": "匠人腕",
+      "rev": "r20"
+    }
+  },
+  "convoy_good": {
+    "$section": "tier 2. From game_data.json convoy_goods. (r20)",
+    "good.source_scroll": {
+      "en": "Source Scroll",
+      "zh-Hant": "源卷",
+      "rev": "r20"
+    },
+    "good.source_crystal": {
+      "en": "Source Crystal",
+      "zh-Hant": "源晶",
+      "rev": "r20"
+    },
+    "good.rumor_page": {
+      "en": "Rumor Page",
+      "zh-Hant": "譜聞頁",
+      "rev": "r20",
+      "zh-Hans": "谱闻页"
+    },
+    "good.verified_page": {
+      "en": "Verified Page",
+      "zh-Hant": "譜證頁",
+      "rev": "r20",
+      "zh-Hans": "谱证页"
+    },
+    "good.capacitor": {
+      "en": "Capacitor",
+      "zh-Hant": "儲載珠",
+      "rev": "r20",
+      "zh-Hans": "储载珠"
+    },
+    "good.patch_ink": {
+      "en": "Patch-Ink",
+      "zh-Hant": "淨墨",
+      "rev": "r20",
+      "zh-Hans": "净墨"
+    },
+    "good.spare_parts": {
+      "en": "Spare Parts",
+      "zh-Hant": "修械件",
+      "rev": "r20"
+    },
+    "good.field_kit": {
+      "en": "Field Kit",
+      "zh-Hant": "醫箱",
+      "rev": "r20",
+      "zh-Hans": "医箱"
+    },
+    "good.forged_transit": {
+      "en": "Forged Transit Papers",
+      "zh-Hant": "偽關牒",
+      "rev": "r20",
+      "zh-Hans": "伪关牒"
+    },
+    "good.bounty_writ": {
+      "en": "Bounty Writ",
+      "zh-Hant": "賞格帖",
+      "rev": "r20",
+      "zh-Hans": "赏格帖"
+    },
+    "good.dig_writ": {
+      "en": "Dig Writ",
+      "zh-Hant": "掘許",
+      "rev": "r20",
+      "zh-Hans": "掘许"
+    },
+    "good.unmarked_specie": {
+      "en": "Unmarked Specie",
+      "zh-Hant": "帳外之金",
+      "rev": "r20",
+      "zh-Hans": "帐外之金"
+    }
+  },
+  "gear": {
+    "$section": "tier 2 — the mundane 'mud-iron' layer (械 armaments / 甲 plates / 佩 peripherals). Proper names for game_data.json gear entities (stats stay in game_data; this is the locale name, keyed gear.<id>). EN twins authored r84 to close EQUIP-gear-ftl + REPOSITORY-4-gear: deliberately PLAIN historical-arms register (opposed to the magical programmes) — the ids were already English, so EN mirrors them in the Blaze-Bolt/Field-Strip hyphen house-style. zh-Hant pulled from game_data.cn; zh-Hans generated from it via OpenCC at load (no overrides — all are clean char-by-char t2s conversions), per this file's convention.",
+    "gear.dirk": {
+      "en": "Dirk",
+      "zh-Hant": "短刃",
+      "rev": "r84"
+    },
+    "gear.sleeve_bow": {
+      "en": "Sleeve-Bow",
+      "zh-Hant": "袖弩",
+      "rev": "r84"
+    },
+    "gear.throwing_axes": {
+      "en": "Throwing Axes",
+      "zh-Hant": "投斧",
+      "rev": "r84"
+    },
+    "gear.hunting_bow": {
+      "en": "Hunting Bow",
+      "zh-Hant": "獵弓",
+      "rev": "r84",
+      "zh-Hans": "猎弓"
+    },
+    "gear.grapple_hook": {
+      "en": "Grapple-Hook",
+      "zh-Hant": "鉤索",
+      "rev": "r84",
+      "zh-Hans": "钩索"
+    },
+    "gear.halberd": {
+      "en": "Halberd",
+      "zh-Hant": "長戟",
+      "rev": "r84",
+      "zh-Hans": "长戟"
+    },
+    "gear.maul": {
+      "en": "Maul",
+      "zh-Hant": "重錘",
+      "rev": "r84",
+      "zh-Hans": "重锤"
+    },
+    "gear.arbalest": {
+      "en": "Arbalest",
+      "zh-Hant": "重弩",
+      "rev": "r84"
+    },
+    "gear.repeater": {
+      "en": "Repeater",
+      "zh-Hant": "連弩",
+      "rev": "r84",
+      "zh-Hans": "连弩"
+    },
+    "gear.venomed_point": {
+      "en": "Venomed Point",
+      "zh-Hant": "淬毒短匕",
+      "rev": "r84"
+    },
+    "gear.matchlock": {
+      "en": "Matchlock",
+      "zh-Hant": "火銃",
+      "rev": "r84",
+      "zh-Hans": "火铳"
+    },
+    "gear.siege_piece": {
+      "en": "Siege-Piece",
+      "zh-Hant": "蹶張砲",
+      "rev": "r84",
+      "zh-Hans": "蹶张砲"
+    },
+    "gear.cloth": {
+      "en": "Cloth",
+      "zh-Hant": "布服",
+      "rev": "r84"
+    },
+    "gear.gambeson": {
+      "en": "Gambeson",
+      "zh-Hant": "布甲",
+      "rev": "r84"
+    },
+    "gear.leathers": {
+      "en": "Leathers",
+      "zh-Hant": "皮甲",
+      "rev": "r84"
+    },
+    "gear.ghostweave": {
+      "en": "Ghostweave",
+      "zh-Hant": "幽存織",
+      "rev": "r84",
+      "zh-Hans": "幽存织"
+    },
+    "gear.silk_weave": {
+      "en": "Silk-Weave",
+      "zh-Hant": "絲鎧",
+      "rev": "r84",
+      "zh-Hans": "丝铠"
+    },
+    "gear.scale": {
+      "en": "Scale",
+      "zh-Hant": "鱗甲",
+      "rev": "r84",
+      "zh-Hans": "鳞甲"
+    },
+    "gear.war_plate": {
+      "en": "War-Plate",
+      "zh-Hant": "板甲",
+      "rev": "r84"
+    },
+    "gear.tower_shell": {
+      "en": "Tower-Shell",
+      "zh-Hant": "龜殼",
+      "rev": "r84",
+      "zh-Hans": "龟壳"
+    },
+    "gear.grounding_rod": {
+      "en": "Grounding-Rod",
+      "zh-Hant": "接地杖",
+      "rev": "r84"
+    },
+    "gear.resonance_pin": {
+      "en": "Resonance-Pin",
+      "zh-Hant": "諧振簪",
+      "rev": "r84",
+      "zh-Hans": "谐振簪"
+    },
+    "gear.fine_brush": {
+      "en": "Fine Brush",
+      "zh-Hant": "工筆",
+      "rev": "r84",
+      "zh-Hans": "工笔"
+    },
+    "gear.focus_bead": {
+      "en": "Focus-Bead",
+      "zh-Hant": "縛心珠",
+      "rev": "r84",
+      "zh-Hans": "缚心珠"
+    },
+    "gear.seal_ring": {
+      "en": "Seal-Ring",
+      "zh-Hant": "承印環",
+      "rev": "r84",
+      "zh-Hans": "承印环"
+    },
+    "gear.ash_veil": {
+      "en": "Ash-Veil",
+      "zh-Hant": "灰紗",
+      "rev": "r84",
+      "zh-Hans": "灰纱"
+    },
+    "gear.hollow_bowl": {
+      "en": "Hollow-Bowl",
+      "zh-Hant": "虛心盂",
+      "rev": "r84",
+      "zh-Hans": "虚心盂"
+    },
+    "gear.severance_clasp": {
+      "en": "Severance-Clasp",
+      "zh-Hant": "斷尾釦",
+      "rev": "r84",
+      "zh-Hans": "断尾扣"
+    },
+    "gear.wayfinder_bell": {
+      "en": "Wayfinder-Bell",
+      "zh-Hant": "問路鈴",
+      "rev": "r84",
+      "zh-Hans": "问路铃"
+    },
+    "gear.artisan_wrist": {
+      "en": "Artisan's-Wrist",
+      "zh-Hant": "匠人腕",
+      "rev": "r84"
+    }
+  }
+}

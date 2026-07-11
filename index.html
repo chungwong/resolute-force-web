@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0d12" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>Resolute Force — tactical battle demo</title>
+    <!-- The game is authored landscape (1600×900, fixed-canvas fit-scaler); an
+         installed copy launches fullscreen + landscape via the manifest. Trunk
+         copies these static files into dist; the plain rel="manifest"/icon links
+         are what the browser actually reads. -->
+    
+    
+    
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
+    <!-- Inline gold-diamond favicon (the UI's ◆ identity) — no extra request, kills the 404. -->
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA0UlEQVR42u2XwQ3CMBAEz/tC4sMH0Q9N0AFF0QFN0E+UIuCFhISxvbsn/Mm9rcycLr5syn53eMbEQkyuTcAWeNxO8wTecEcCWZ2rEnDh5+tiSSAD7kggo3NHAi78fvTGgQy4I4GMzh0JZMAdCWTBVQlkwhUJZMNZiS+BX4cv60IJfJ5v7Y/qCFyJUXjzJVQlGHj3GrISLHxoEY1KKPDhVdyTUOEREYWJ5b2Hs3D6c9y6zwpcCiQ1CRVOj6CXAVm4FUpbiehvsbyWCdkq28/pbIEXp9SqeCRfFvUAAAAASUVORK5CYII=" />
+    <script>
+      // Chrome (desktop + mobile) starts every AudioContext suspended until a user
+      // gesture, and the one cpal/bevy_audio creates internally is never resumed on
+      // its own — so the game stays silent. Runs before the wasm loads: proxy the
+      // AudioContext constructor to track each context, then resume them on the
+      // first user interaction, unbinding once all are running.
+      (function () {
+        // An array of all contexts to resume on the page
+        const audioContextList = [];
+
+        // An array of various user interaction events we should listen for
+        const userInputEventNames = [
+          "click",
+          "contextmenu",
+          "auxclick",
+          "dblclick",
+          "mousedown",
+          "mouseup",
+          "pointerup",
+          "touchend",
+          "keydown",
+          "keyup",
+        ];
+
+        // A proxy object to intercept AudioContexts and
+        // add them to the array for tracking and resuming later
+        self.AudioContext = new Proxy(self.AudioContext, {
+          construct(target, args) {
+            const result = new target(...args);
+            audioContextList.push(result);
+            return result;
+          },
+        });
+
+        // To resume all AudioContexts being tracked
+        function resumeAllContexts(event) {
+          let count = 0;
+
+          audioContextList.forEach((context) => {
+            if (context.state !== "running") {
+              context.resume();
+            } else {
+              count++;
+            }
+          });
+
+          // If all the AudioContexts have now resumed then we
+          // unbind all the event listeners from the page to prevent
+          // unnecessary resume attempts
+          if (count == audioContextList.length) {
+            userInputEventNames.forEach((eventName) => {
+              document.removeEventListener(eventName, resumeAllContexts);
+            });
+          }
+        }
+
+        // We bind the resume function for each user interaction
+        // event on the page
+        userInputEventNames.forEach((eventName) => {
+          document.addEventListener(eventName, resumeAllContexts);
+        });
+      })();
+    </script>
+    <!-- wasm-opt -Oz (MANDATORY for deploy). "off" (="0") ships the raw ~126 MB
+         module, which EXCEEDS GitHub's hard 100 MB file limit → gh-pages rejects the
+         push (not just the 50 MB warning). -Oz shrinks it well under the limit.
+         wasm-opt is only ~1-2 min anyway; the build's bulk is the Rust/Bevy release
+         compile, so turning it off never bought the speed it seemed to — it just
+         broke the deploy. Leave this ON. -->
+    
+<script type="module">
+import init, * as bindings from '/resolute-force-web/rf_app-a58ac60002c48884.js';
+const wasm = await init({ module_or_path: '/resolute-force-web/rf_app-a58ac60002c48884_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+    
+    <style>
+      html, body { margin: 0; height: 100%; background: #0b0d12; color: #c9d1d9;
+        font-family: system-ui, sans-serif; overflow: hidden; }
+      #loading { position: fixed; inset: 0; display: flex; align-items: center;
+        justify-content: center; flex-direction: column; gap: 0.5rem; }
+      /* touch-action:none — stop the mobile browser from claiming taps as
+         pan/zoom/double-tap gestures before they reach the canvas; without it,
+         a tap can be swallowed and never delivered to the game as a click. */
+      /* Fit the canvas to the TRULY-VISIBLE, SAFE area, not the raw screen:
+         - 100dvh = dynamic viewport height, which EXCLUDES the phone browser's
+           address/gesture bar (100vh includes it, hiding the bottom row of UI
+           under the bar — that's the "deploy buttons off-screen" bug).
+         - env(safe-area-inset-*) keeps the render clear of the notch / rounded
+           corners / home-swipe strip (needs viewport-fit=cover, already set).
+         On desktop every inset is 0 and dvh == vh, so this is a no-op there. */
+      canvas { display: block; position: fixed;
+        top: env(safe-area-inset-top); left: env(safe-area-inset-left);
+        width: calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right));
+        height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+        height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+        outline: none; touch-action: none; }
+
+      /* Rotate hint — the game is authored landscape (1600×900) and the fit-scaler
+         letterboxes a portrait phone into a thin unusable band. On a touch device
+         held portrait, cover that band and ask for a rotate. Pure CSS: desktop
+         (fine pointer) never sees it, even in a narrow window. */
+      #rotate { display: none; }
+      @media (orientation: portrait) and (pointer: coarse) {
+        #rotate { position: fixed; inset: 0; z-index: 10; display: flex;
+          align-items: center; justify-content: center; flex-direction: column;
+          gap: 1rem; background: #0b0d12; text-align: center; padding: 2rem; }
+        #rotate .glyph { font-size: 3.2rem; color: #c9a227;
+          animation: rf-rot 2.4s ease-in-out infinite; }
+        #rotate .cjk { font-size: 1.15rem; color: #c9a227; letter-spacing: 0.3em; }
+        #rotate .en { font-size: 0.85rem; color: #8a7124; letter-spacing: 0.15em; }
+        canvas { visibility: hidden; }
+        #fs { display: none !important; }
+      }
+      @keyframes rf-rot { 0%,55% { transform: rotate(0); } 78%,100% { transform: rotate(-90deg); } }
+
+      /* Fullscreen affordance — in landscape the browser URL bar still steals
+         height; one tap goes fullscreen and locks landscape. Touch devices only,
+         hidden once already fullscreen (toggled from JS). */
+      #fs { position: fixed; right: calc(12px + env(safe-area-inset-right));
+        bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 11; display: none;
+        padding: 8px 12px; border: 1px solid #8a7124; border-radius: 6px;
+        background: rgba(11,13,18,0.7); color: #c9a227; font-size: 0.85rem;
+        letter-spacing: 0.1em; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    </style>
+  <link rel="modulepreload" href="/resolute-force-web/rf_app-a58ac60002c48884.js" crossorigin="anonymous" integrity="sha384-5LY0EFEvvs+mmEJDwpIu4UxeDIYmg8n+DouxKuGpdT1GSwreTdsY/mBu0NqZN4zW"><link rel="preload" href="/resolute-force-web/rf_app-a58ac60002c48884_bg.wasm" crossorigin="anonymous" integrity="sha384-FsjZjqXispkCPSSiBxh7v57tN1ktdyCF8AUWge3AGAnfJAyYsZKg+jgenPXg1CU9" as="fetch" type="application/wasm"></head>
+  <body>
+    <div id="loading">
+      <h1>Resolute Force</h1>
+      <p>Loading the battlefield… (compiling shaders on first load can take a moment)</p>
+    </div>
+    <canvas id="rf-canvas"></canvas>
+    <button id="fs" type="button" aria-label="Fullscreen">⛶ 全屏</button>
+    <div id="rotate">
+      <div class="glyph">⟳</div>
+      <div class="cjk">請橫置螢幕</div>
+      <div class="en">ROTATE TO LANDSCAPE</div>
+    </div>
+    <script>
+      // Hide the loading splash once the canvas has been drawn into.
+      const obs = new MutationObserver(() => {
+        const c = document.getElementById("rf-canvas");
+        if (c && c.width > 1) { document.getElementById("loading").style.display = "none"; obs.disconnect(); }
+      });
+      obs.observe(document.getElementById("rf-canvas"), { attributes: true });
+
+      // Fullscreen + landscape lock on a touch device. The landscape game loses
+      // vertical space to the browser chrome; one tap reclaims it. Both calls are
+      // best-effort — orientation.lock only resolves in fullscreen and only on
+      // browsers that support it (Android Chrome yes, iOS Safari no); failures are
+      // swallowed so the button still fullscreens where it can.
+      (function () {
+        const fs = document.getElementById("fs");
+        const coarse = window.matchMedia("(pointer: coarse)").matches;
+        if (!coarse) return;
+        const sync = () => { fs.style.display = document.fullscreenElement ? "none" : "block"; };
+        fs.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          try { await document.documentElement.requestFullscreen(); } catch (_) {}
+          try { await screen.orientation.lock("landscape"); } catch (_) {}
+          sync();
+        });
+        document.addEventListener("fullscreenchange", sync);
+        sync();
+      })();
+
+      // Touch diagnostic — append ?touchdebug=1 to the URL to show a readout of
+      // raw touch/pointer events on the canvas. If taps register here but the
+      // game doesn't respond, the browser IS delivering touch and the issue is
+      // downstream (winit/coord mapping). If NOTHING shows, the browser is
+      // swallowing the touch (a CSS/gesture problem). Off by default.
+      if (location.search.includes("touchdebug")) {
+        const box = document.createElement("div");
+        box.style.cssText = "position:fixed;left:8px;top:8px;z-index:99;padding:6px 10px;" +
+          "background:rgba(0,0,0,0.75);color:#c9a227;font:12px monospace;white-space:pre;pointer-events:none;";
+        box.textContent = "touchdebug: waiting…";
+        document.body.appendChild(box);
+        let n = 0;
+        const cv = document.getElementById("rf-canvas");
+        const log = (type, x, y) => { box.textContent =
+          `touchdebug #${++n}\n${type}\nx=${Math.round(x)} y=${Math.round(y)}\ndpr=${window.devicePixelRatio}`; };
+        cv.addEventListener("touchstart", (e) => { const t = e.touches[0]; log("touchstart", t.clientX, t.clientY); }, { passive: true });
+        cv.addEventListener("touchend", () => log("touchend", 0, 0), { passive: true });
+        cv.addEventListener("pointerdown", (e) => log("pointerdown", e.clientX, e.clientY));
+      }
+    </script>
+  </body>
+</html>

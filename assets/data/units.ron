@@ -1,0 +1,57 @@
+// The encounter roster, retuned to the Numbers Bible (數經 Ⅰ/Ⅴ): Stable
+// baseline HP 24 · BW pool 12 (2× the Bible's per-turn 6 — see
+// Grade::bandwidth_pool) · move 4 (mud-iron carriers 5) · firewall 0–3.
+// Cast damage = programme power − firewall (output is the mundane arm's
+// number only — two powers never blur).
+// stats: (coherence_max, bandwidth_max, output, firewall, latency, mov) — latency low=fast; pos: (x, z).
+// class: Warrior | Knight | Archer | Mage | Priest; team: Player | Enemy.
+// grade: optional 評級 (Echo | Stable | HighLoad | Overrun | NearKernel), default Stable.
+// source: optional 本源 override (Blaze | Frost | Spark | Aura | Void) — else the class affinity.
+// loadout: optional 記憶體 loadout (skill ids), capped by grade Memory (Stable = 4).
+//   Omitted = auto-fill from the unit's source list, lowest level first.
+// mud_iron: optional 濁械 (dmg, range) — flat damage through Firewall; plate soaks it;
+//   only cover defends (35% miss). Carrying it on Dense core ground writes Heat.
+// calling: optional 職 (Surveyor | Licensee | Witness | Heir | Examiner |
+//   DaemonKeeper | Quietist | IronSoldier) — issues the unit's verb.
+(
+    units: [
+        // Player force on the south bank (front line z=7, casters a row back).
+        // Names + callings are the CANONICAL party→calling→UnitId map, authored
+        // in glossary.json#party (r65, BATTLE-ROSTER); records::ROSTER agrees.
+        // The `name` here is the EN call-name (canonical UI label); the HUD
+        // renders the per-locale name from glossary#party by UnitId. UnitId 6
+        // (阿沸 Ah Fei / surveyor) arrives via recruitment, not this demo deploy.
+        //   1 借名 Loan → witness · 2 鐵嫂 Aunt Iron → iron_soldier ·
+        //   3 渡母 Ferry Mother → daemon_keeper · 4 小卷 Little Scroll → licensee ·
+        //   5 棄印 Broke-Seal → examiner. (class/stats/gear are numbers, orthogonal
+        //   to the calling verb — gear_numbers_calling_verbs — so left as tuned.)
+        (id: 1,   name: "Loan",         class: Warrior, team: Player, stats: (coherence_max: 24, bandwidth_max: 12, output: 9,  firewall: 2, latency: 5, mov: 5), pos: (x: 4, z: 7),
+                  mud_iron: Some((dmg: 5, range: 2)), calling: Some(Witness)),
+        // 應 test unit: the iron soldier strikes back (Riposte) — trait-gated,
+        // deterministic (rules.json#reactions_are_trait_gated). Content later ties
+        // the trait to callings; for now a couple of units carry it.
+        (id: 2,   name: "Aunt Iron",    class: Knight,  team: Player, stats: (coherence_max: 26, bandwidth_max: 12, output: 10, firewall: 2, latency: 6, mov: 4), pos: (x: 6, z: 7),
+                  calling: Some(IronSoldier), reactions: [Riposte]),
+        (id: 3,   name: "Ferry Mother", class: Archer,  team: Player, stats: (coherence_max: 22, bandwidth_max: 12, output: 8,  firewall: 1, latency: 4, mov: 4), pos: (x: 8, z: 7),
+                  calling: Some(DaemonKeeper)),
+        (id: 4,   name: "Little Scroll",class: Mage,    team: Player, stats: (coherence_max: 20, bandwidth_max: 12, output: 6,  firewall: 1, latency: 4, mov: 4), pos: (x: 3, z: 8),
+                  calling: Some(Licensee)),
+        (id: 5,   name: "Broke-Seal",   class: Priest,  team: Player, stats: (coherence_max: 22, bandwidth_max: 14, output: 5,  firewall: 1, latency: 5, mov: 4), pos: (x: 6, z: 8),
+                  calling: Some(Examiner)),
+        // Enemy force on the north bank — the 敵冊 register (humans mostly,
+        // one antibody): 巡吏 wardpost guard, 執牘 writ-bearer, 幽存客 ghost
+        // contractor, 有印法吏 sealed caster (Frost), 家衛 house retainer.
+        (id: 101, name: "Ward Guard",    class: Warrior, team: Enemy, stats: (coherence_max: 24, bandwidth_max: 8,  output: 9, firewall: 2, latency: 6, mov: 5), pos: (x: 3, z: 4),
+                  mud_iron: Some((dmg: 5, range: 1))),
+        // 應 test unit: the disconnect-antibody severs casts in reach (Interrupt/斷)
+        // — matches its game_data behaviour ("disconnects loudest").
+        (id: 102, name: "Writ-Bearer",   class: Knight,  team: Enemy, stats: (coherence_max: 30, bandwidth_max: 16, output: 8, firewall: 3, latency: 3, mov: 4), pos: (x: 5, z: 4),
+                  grade: Some(HighLoad), source: Some(Spark), loadout: ["scramble", "feedback"], reactions: [Interrupt]),
+        (id: 103, name: "Ghost",         class: Archer,  team: Enemy, stats: (coherence_max: 20, bandwidth_max: 8,  output: 7, firewall: 1, latency: 5, mov: 5), pos: (x: 8, z: 4),
+                  mud_iron: Some((dmg: 3, range: 2)), calling: Some(IronSoldier), reactions: [Riposte]),
+        (id: 104, name: "Sealed Caster", class: Mage,    team: Enemy, stats: (coherence_max: 20, bandwidth_max: 12, output: 5, firewall: 1, latency: 4, mov: 4), pos: (x: 4, z: 3),
+                  source: Some(Frost), loadout: ["chill_slow", "shatter_toll"]),
+        (id: 105, name: "Retainer",      class: Priest,  team: Enemy, stats: (coherence_max: 26, bandwidth_max: 12, output: 8, firewall: 2, latency: 7, mov: 4), pos: (x: 6, z: 3),
+                  loadout: ["oath_ward", "knit"], mud_iron: Some((dmg: 7, range: 1))),
+    ],
+)

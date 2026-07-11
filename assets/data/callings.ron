@@ -1,0 +1,82 @@
+// 職 Callings — verbs issued by factions (design: Callings — Design
+// Exploration v2; numbers in game_data.json `callings`). A calling grants a
+// VERB — one action nobody else has — and this file carries who issued it,
+// which power it moves through (二權: Wille / Paper / Absence), where its
+// geometry puts its bearer, and the Standing-Ⅲ elevation title. The verb's
+// MECHANICS are engine code keyed by the `calling` enum.
+(
+    callings: [
+        (
+            calling: Surveyor,
+            cn: "測算生", en: "SURVEYOR",
+            faction: "測算司 The Surveyors' Office",
+            layer: Wille,
+            station: "後讀 REAR READER",
+            verb_label: "問 · QUERY",
+            elevation: "掌算官 Master of Reckoning",
+        ),
+        (
+            calling: Licensee,
+            cn: "有照師", en: "LICENSEE",
+            faction: "編譯行會 The Compilers' Guild",
+            layer: Paper,
+            station: "隨行公證 ESCORT",
+            verb_label: "具狀 · COUNTERSIGN",
+            elevation: "簽首 First Signature",
+        ),
+        (
+            calling: Witness,
+            cn: "睹習生", en: "WITNESS",
+            faction: "自由分支 The Free Fork",
+            layer: Wille,
+            station: "餌 BAIT",
+            verb_label: "睹 · WITNESS",
+            elevation: "譯宗 Master Translator",
+        ),
+        (
+            calling: Heir,
+            cn: "承血者", en: "HEIR",
+            faction: "遺傳世家 The Heritance Houses",
+            layer: Paper,
+            station: "錨 ANCHOR",
+            verb_label: "租 · LEASE",
+            elevation: "家督 Head of House",
+        ),
+        (
+            calling: Examiner,
+            cn: "驗身官", en: "EXAMINER",
+            faction: "註冊局 The Registry（叛官）",
+            layer: Paper,
+            station: "近衛 MELEE SUPPORT",
+            verb_label: "驗 · INSPECT",
+            elevation: "掌驗 Master of Audits",
+        ),
+        (
+            calling: DaemonKeeper,
+            cn: "喚駐司祭", en: "DAEMON-KEEPER",
+            faction: "常駐教團 The Resident Cult",
+            layer: Wille,
+            station: "域炮 ZONE ARTILLERY",
+            verb_label: "喚駐 · WAKE",
+            elevation: "燈主 Keeper of the Lamp",
+        ),
+        (
+            calling: Quietist,
+            cn: "復寂士", en: "QUIETIST",
+            faction: "復寂會 The Quietists",
+            layer: Wille,
+            station: "前沿控場 FORWARD CONTROL",
+            verb_label: "寐 · HUSH",
+            elevation: "寂長老 Elder of the Quiet",
+        ),
+        (
+            calling: IronSoldier,
+            cn: "濁械卒", en: "IRON SOLDIER",
+            faction: "無派 · 或傭於幽存 none — or hired by the Ghosts",
+            layer: Absence,
+            station: "尖兵 POINT",
+            verb_label: "無 · （動詞之缺）",
+            elevation: "銹將 Rust General",
+        ),
+    ],
+)

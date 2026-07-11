@@ -1,0 +1,84 @@
+// 疆域圖 The World Register — settlement nodes on the world map. From the
+// design handoff (World Map - Command Console, NODES table). x/y are percent
+// positions on the engraved map art (ui/worldmap.png); bw is 域載 field
+// density in percent; tone picks the marker colour. adjacency is the travel
+// graph (undirected pairs, authored from the map's geography); hunter_start
+// is where 霜 the Examiner sets out from.
+(
+    adjacency: [
+        ("spindle", "root"),
+        ("spindle", "hushfold"),
+        ("spindle", "compilers"),
+        ("spindle", "frontier"),
+        ("root", "compilers"),
+        ("guild", "compilers"),
+        ("guild", "datum"),
+        ("compilers", "frontier"),
+        ("compilers", "datum"),
+        ("datum", "hollow"),
+        ("datum", "frontier"),
+        ("frontier", "underfork"),
+        ("frontier", "hollow"),
+        ("frontier", "hushfold"),
+        ("underfork", "ashmarch"),
+        ("hollow", "ashmarch"),
+    ],
+    hunter_start: "root",
+    // Region-name anchors (percent of the art). Positions only — each label's
+    // text renders from glossary.json#worldmap_region by `id` under the active
+    // Locale, so 語 EN→繁→简 relabels the whole atlas in place. Placed over each
+    // region's node cluster (or its open expanse, for regions with no
+    // settlement) and drawn faint so they read as geography, not chrome.
+    regions: [
+        (id: "region.coreland", x: 8.5, y: 60),
+        (id: "region.meridian", x: 40, y: 22),
+        (id: "region.sundered", x: 63, y: 33),
+        (id: "region.frost", x: 30, y: 9),
+        (id: "region.marches", x: 36, y: 69),
+        (id: "region.rift", x: 53, y: 56),
+        (id: "region.splinters", x: 58, y: 92),
+        (id: "region.cinder", x: 70, y: 71),
+    ],
+    nodes: [
+        (key: "spindle", mission: Some(Erasure), cn: "冊樞", en: "THE SPINDLE", geo: "Coreland · Inner Reach", tone: Registry, seat: true, x: 18.75, y: 52.5, bw: 98,
+         bloc: "註冊局 · The Registry",
+         desc: "根議會與註冊局所在的近核首都，坐落於神啟原沃土。域載冠於諸領——言出如協定，萬象聽命。",
+         desc_en: "Near-core capital on the fertile plains of Coreland; seat of the Root Assembly and the Registry. Field density unrivalled — here a word becomes protocol, and the world obeys."),
+        (key: "root", mission: Some(Taking), cn: "根議會", en: "ROOT COUNCIL", geo: "Coreland · The Spire", tone: Admin, seat: true, x: 15, y: 42.5, bw: 91,
+         bloc: "管理者 · Administrator",
+         desc: "握核心之權者議事之堂。授權、撤權、格式化令，皆出於此。",
+         desc_en: "The hall where those who hold the Kernel writ convene. Licence, revocation, and the format decree all issue from here."),
+        (key: "guild", mission: Some(SourceHeist), cn: "行會領", en: "THE GUILDREACH", geo: "Meridian Reach · Highlands", tone: Guild, seat: true, x: 38.75, y: 32.5, bw: 73,
+         bloc: "編譯行會 · 遺傳世家",
+         desc: "閉源之疆，據子午嶺礦脈。編譯行會壟斷授權，思維為商品，血脈定席位。",
+         desc_en: "The proprietary realm, holding the lodes of the Meridian Reach. The Compiler Guild monopolises licence; thought is merchandise, and bloodline sets rank."),
+        (key: "compilers", mission: Some(SourceHeist), cn: "編譯行", en: "COMPILER'S ROW", geo: "Meridian Reach · Foothills", tone: Guild, seat: false, x: 35, y: 41, bw: 66,
+         bloc: "機制 · 授權",
+         desc: "行會領的工坊帶。專利思維在此鍛造、加密、售出。",
+         desc_en: "The workshop belt of the Guildreach. Patented programmes are forged, encrypted, and sold here."),
+        (key: "hollow", mission: Some(Escort), cn: "空境", en: "THE HOLLOW", geo: "The Sundered East · Dunes", tone: Cult, seat: true, x: 73.75, y: 45, bw: 57,
+         bloc: "常駐教團 · The Persistent",
+         desc: "裂東荒漠中的異端之地，古廢墟環伺。奉無主之古常駐為偉力真身，求觸核心。",
+         desc_en: "A land of heretics amid the dunes of the Sundered East, ringed by ancient ruins; they revere a masterless old daemon as the true Wille and seek the Kernel."),
+        (key: "underfork", mission: Some(Writ), cn: "分支底層", en: "THE UNDERFORK", geo: "The Splinters · Archipelago", tone: Rebel, seat: true, x: 53.75, y: 86, bw: 46,
+         bloc: "自由分支 · Open Source",
+         desc: "碎島沼澤間的開源之壤。思維當自由傳布，斥授權為枷。盜版與革命自此蔓生。",
+         desc_en: "Open-source soil in the swamp-isles of the Splinters. Thought should spread free; licence is a shackle. Piracy and revolt breed here."),
+        (key: "frontier", cn: "緋界", en: "THE FRONTIER", geo: "The Marches · The Rift", tone: Contested, seat: true, x: 45, y: 62.5, bw: 39,
+         bloc: "交鋒 · Contested",
+         desc: "諸領交界，緊鄰空隙——偉力滲漏之地。抗體游緝最密，格式化與盜版日夜相搏。",
+         desc_en: "Where the realms meet, hard against the Rift — ground where the Wille leaks. Antibody patrols run thickest; format and piracy clash day and night."),
+        (key: "ashmarch", mission: Some(Writ), cn: "燼野", en: "THE ASHMARCH", geo: "The Cinderwastes · Edge", tone: Exile, seat: true, x: 81.25, y: 82.5, bw: 11,
+         bloc: "幽存 · The Uninstalled",
+         desc: "燼原火山之荒。已卸載者流落所成，偉力至此近絕。被系統遺忘的邊陲。",
+         desc_en: "The volcanic waste of the Cinderwastes. Made of the uninstalled cast adrift; the Wille all but fails here — the edge the system forgot."),
+        (key: "datum", mission: Some(Sever), cn: "基準臺", en: "THE DATUM", geo: "Meridian Reach · Eastern Scarp", tone: Survey, seat: true, x: 55, y: 36, bw: 58,
+         bloc: "測算司 · The Surveyors",
+         desc: "子午嶺東崖之觀測城，域載自此陡落——崖即其尺。量域載、修潮曆、製度規；諸疆分所皆聽於此。例不涉派爭，各派皆容其量地。",
+         desc_en: "The observatory-city on the Meridian Reach's eastern scarp, where field density falls away steeply — the cliff itself is their ruler. By custom it takes no side, and every faction suffers its measuring."),
+        (key: "hushfold", mission: Some(Escort), cn: "息廬", en: "THE HUSHFOLD", geo: "Coreland · Southwest Vales", tone: Quiet, seat: true, x: 20, y: 72, bw: 64,
+         bloc: "復寂會 · The Quietists",
+         desc: "神啟原西南丘谷之退居，數十茅舍。復寂會謂靜默紀方為本然，誓不發、禮不問；核蝕之語既起，其言忽重。局知其所而不巡——不發者，無可錄。",
+         desc_en: "A retreat of thatched houses in the vales southwest of the Coreland. The Quietists hold the Silent Era was the true state — vows against casting, rites of not-asking. The Registry knows the place and never patrols: who does not cast writes nothing to police."),
+    ],
+)
